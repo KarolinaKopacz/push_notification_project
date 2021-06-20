@@ -2,14 +2,13 @@ import React from "react";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { useAppSelector } from "./hooks/useAppSelector";
 import { useAppDispatch } from "./hooks/useAppDispatch";
-
-import { Menu } from "./layaut/menu/index";
-import "./style.css";
-
 import { TestAction } from "./redux/Test/action";
 
-import { CustomerSite } from "./layaut/customerSite";
 import { CaregiverSite } from "./layaut/caregiverSite";
+import { CustomerSite } from "./layaut/customerSite";
+import { Menu } from "./layaut/menu/index";
+
+import "./style.css";
 
 function App() {
   const dispatch = useAppDispatch();

@@ -21,7 +21,6 @@ body {
     grid-template-areas:
       'header header header header header header header'
       'left left left right right  right right'
-      
       'footer footer footer footer footer footer footer';
     grid-gap: 20px;
     
@@ -33,12 +32,22 @@ body {
 
 
 
-.header { grid-area: header; }
-.left-side { grid-area: left;
-height: 50vh;
-width: 100%; }
-.right-side { grid-area: right; 
+.header { 
+    grid-area: header; 
+}
+
+.left-side { 
+    grid-area: left;
     height: 50vh;
-    width: 100%;}
+    width: 100%;
+    border: 1px solid grey; 
+}
+
+.right-side { 
+    grid-area: right; 
+    height: 50vh;
+    width: 100%;
+    border: 1px solid grey;
+}
 /* .item4 { grid-area: right; } */
 .item5 { grid-area: footer; }
