@@ -1,47 +1,21 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
-import { useAppSelector } from "./hooks/useAppSelector";
-import { useAppDispatch } from "./hooks/useAppDispatch";
-import { TestAction } from "./redux/Test/action";
+import { Newpage } from "./newpsge";
 
-import { CaregiverSite } from "./layaut/caregiverSite";
-import { CustomerSite } from "./layaut/customerSite";
-import { Menu } from "./layaut/menu/index";
+import { Register } from "./register";
 
 import "./style.css";
 
 function App() {
-  const dispatch = useAppDispatch();
-
-  const testValue = useAppSelector((state) => state.test.value);
-
-  React.useEffect(() => {
-    console.log(testValue);
-  }, [testValue]);
-
-  const handleClick = () => {
-    dispatch({
-      type: TestAction.SET,
-      payload: { value: 2 },
-    });
-  };
-
   return (
     <Router>
-      <div>
-        <div className="header">
-          <Menu />
-        </div>
-
-        {/* <p>{testValue}</p>
-        <button onClick={handleClick}>change</button> */}
+      <div className="app">
+        <Register />
       </div>
+
       <Switch>
-        <Route path="/dla_szukających_opiekunki">
-          <CustomerSite />
-        </Route>
-        <Route path="/dla_opiekunek">
-          <CaregiverSite />
+        <Route path="/helllol">
+          <Newpage />
         </Route>
       </Switch>
     </Router>
