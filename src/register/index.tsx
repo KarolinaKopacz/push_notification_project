@@ -1,9 +1,12 @@
-import { useDebugValue, useState } from "react";
-import { NewRegisterType, NewUserData } from "./types";
+import { useState } from "react";
+import showPwdImg from "./show-password.svg";
+import hidePwdImg from "./hide-password.svg";
 
 export const Register = () => {
   const [newLogin, setNewLogin] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [password, setPassword] = useState("");
+  const [isRevealPwd, setIsRevealPwd] = useState(false);
 
   const handleRegisterPress = (): Promise<Boolean> => {
     const requestURL = "https://userdatabase-9fd5.restdb.io/rest/users2";
@@ -16,18 +19,17 @@ export const Register = () => {
       },
 
       body: JSON.stringify({
-        // email: newLogin,
-        // active: true,
         login: newLogin,
         password: newPassword,
       }),
-    })
-      .then(() => {
-        return true;
-      })
-      .catch(() => {
-        return false;
-      });
+    }).then(() => {
+      setNewLogin("");
+      setNewPassword("");
+      return true;
+    });
+    // .catch(() => {
+    //   return false;
+    // });
   };
 
   return (
@@ -40,30 +42,37 @@ export const Register = () => {
           <p>Login</p>
           <input
             name="login"
-            //   rules={[
-            //   { required: true, message: 'Pole wymagane' },
-            //   { min: 3, message: 'Login jst za któtki' }]}
+            placeholder="Enter login"
+            type="text"
+            //funcka sprawdzająca czy login nie jst zajety
             value={newLogin}
             onChange={(ev) => setNewLogin(ev.target.value)}
           ></input>
         </div>
-        <div className="small-component">
+        <div className="small-component pwd-container">
           <p>Hasło</p>
           <input
             name="password"
+            placeholder="Enter password"
             value={newPassword}
-            onChange={(ev) => setNewPassword(ev.target.value)}
-          ></input>
+            type={isRevealPwd ? "text" : "password"}
+            onChange={(ev) => {
+              setNewPassword(ev.target.value);
+              setPassword(ev.target.value);
+            }}
+          />
+          <img
+            title={isRevealPwd ? "Hide password" : "Show password"}
+            src={isRevealPwd ? hidePwdImg : showPwdImg}
+            onClick={() => setIsRevealPwd((prevState) => !prevState)}
+          />
         </div>
         <div className="small-component">
           <p>Powtórz hasło</p>
           <input name="password_repeat"></input>
         </div>
         <div className="small-component">
-          <button
-            name="register_account"
-            onClick={handleRegisterPress} //{() => loginWithRedirect()}//
-          >
+          <button name="register_account" onClick={handleRegisterPress}>
             Utwórz konto
           </button>
         </div>

@@ -26,3 +26,14 @@
 .small-component {
     margin-top: 5%;
 }
+
+.pwd-container {
+    position: relative;
+}
+.pwd-container img {
+    cursor: pointer;
+    position: absolute;
+    width: 20px;
+    right: 20px;
+    top: 19px;
+  }
