@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import { LogInModal } from "./log-in";
 import { Newpage } from "./newpsge";
 
 import { Register } from "./register";
@@ -10,12 +11,24 @@ function App() {
   return (
     <Router>
       <div className="app">
-        <Register />
+        <div className="app-header">
+          <p>
+            <Link to="/register">Zarejestruj sie</Link>
+          </p>
+
+          <p>/</p>
+          <p>
+            <Link to="/log-in">Zaloguj się</Link>
+          </p>
+        </div>
       </div>
 
       <Switch>
-        <Route path="/helllol">
-          <Newpage />
+        <Route path="/register">
+          <Register />
+        </Route>
+        <Route path="/log-in">
+          <LogInModal />
         </Route>
       </Switch>
     </Router>

@@ -1,7 +1,8 @@
 import { useState } from "react";
-import showPwdImg from "./show-password.svg";
-import hidePwdImg from "./hide-password.svg";
-import { Link } from "react-router-dom";
+import showPwdImg from "../img/log-register/show-password.svg";
+import hidePwdImg from "../img/log-register/hide-password.svg";
+import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
+import { LogInModal } from "../log-in";
 
 export const Register = () => {
   const [newLogin, setNewLogin] = useState("");
