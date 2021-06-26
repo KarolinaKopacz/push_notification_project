@@ -2,8 +2,6 @@ import { combineReducers } from "redux";
 import { Store } from "redux";
 import { createStore } from "redux";
 
-import { reducer as testRecuder, State as TestState } from "./Test/reducer";
-
 import { UserActionType } from "./Users/action";
 import { reducer as userReducer, State as userState } from "./Users/reducer";
 
@@ -15,7 +13,6 @@ export type AppState = {
 
 const store: Store<AppState, AppAction> = createStore(
   combineReducers({
-    test: testRecuder,
     articles: userReducer,
   }),
   // @ts-ignore
