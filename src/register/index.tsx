@@ -1,6 +1,7 @@
 import { useState } from "react";
 import showPwdImg from "./show-password.svg";
 import hidePwdImg from "./hide-password.svg";
+import { Link } from "react-router-dom";
 
 export const Register = () => {
   const [newLogin, setNewLogin] = useState("");
