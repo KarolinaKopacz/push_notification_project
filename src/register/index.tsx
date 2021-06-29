@@ -2,18 +2,23 @@ import { useState } from "react";
 
 import { LogInRegisterModal } from "../modals/register-login";
 import { registerFunc } from "../function";
+import { AlertModal } from "../modals/alerts";
 
 export const Register = () => {
   const [newLogin, setNewLogin] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [password, setPassword] = useState("");
+  const [alertModalVisibility, setAlertModalVisibility] = useState(false);
 
   const handleRegisterPress = () => {
-    registerFunc(newLogin, newPassword).then(() => {
-      setNewLogin("");
-      setNewPassword("");
-      return true;
-    });
+    if (newLogin.length > 3 || newPassword.length > 3) {
+      registerFunc(newLogin, newPassword).then(() => {
+        setNewLogin("");
+        setNewPassword("");
+        return true;
+      });
+    }
+    return setAlertModalVisibility(true);
   };
 
   return (
@@ -32,49 +37,16 @@ export const Register = () => {
         }}
         buttonFunc={handleRegisterPress}
       />
-      {/* <div className="login-modal">
-        <div className="small-component">
-          <p>Zarejestruj sie</p>
-        </div>
-        <div className="small-component">
-          <p>Login</p>
-          <input
-            name="login"
-            placeholder="Enter login"
-            type="text"
-            //funcka sprawdzająca czy login nie jst zajety
-            value={newLogin}
-            onChange={(ev) => setNewLogin(ev.target.value)}
-          ></input>
-        </div>
-        <div className="small-component pwd-container">
-          <p>Hasło</p>
-          <input
-            name="password"
-            placeholder="Enter password"
-            value={newPassword}
-            type={isRevealPwd ? "text" : "password"}
-            onChange={(ev) => {
-              setNewPassword(ev.target.value);
-              setPassword(ev.target.value);
-            }}
-          />
-          <img
-            title={isRevealPwd ? "Hide password" : "Show password"}
-            src={isRevealPwd ? hidePwdImg : showPwdImg}
-            onClick={() => setIsRevealPwd((prevState) => !prevState)}
-          />
-        </div>
-        <div className="small-component">
-          <p>Powtórz hasło</p>
-          <input name="password_repeat"></input>
-        </div>
-        <div className="small-component">
-          <button name="register_account" onClick={handleRegisterPress}>
-            Utwórz konto
-          </button>
-        </div>
-      </div> */}
+      {!alertModalVisibility
+        ? (console.log("NO aleert"), null)
+        : (console.log("aleert"),
+          (
+            <AlertModal
+              alertButtonFunc={() => setAlertModalVisibility(false)}
+              message="Login lub hasło zawirają mnij niż 3 znaki"
+              confirm="OK!"
+            />
+          ))}
     </>
   );
 };
