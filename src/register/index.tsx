@@ -37,16 +37,13 @@ export const Register = () => {
         }}
         buttonFunc={handleRegisterPress}
       />
-      {!alertModalVisibility
-        ? (console.log("NO aleert"), null)
-        : (console.log("aleert"),
-          (
-            <AlertModal
-              alertButtonFunc={() => setAlertModalVisibility(false)}
-              message="Login lub hasło zawirają mnij niż 3 znaki"
-              confirm="OK!"
-            />
-          ))}
+      {!alertModalVisibility ? null : (
+        <AlertModal
+          alertButtonFunc={() => setAlertModalVisibility(false)}
+          message="Login lub hasło zawirają mnij niż 3 znaki"
+          confirm="OK!"
+        />
+      )}
     </>
   );
 };
