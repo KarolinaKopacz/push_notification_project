@@ -1,17 +1,22 @@
-import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 import { useState } from "react";
 
-import showPwdImg from "../img/log-register/show-password.svg";
-import hidePwdImg from "../img/log-register/hide-password.svg";
-import { Register } from "../register";
+import { LogInRegisterModal } from "../modals/register-login";
 
 export const LogInModal = () => {
-  //   const [password, setPassword] = useState("");
-  const [isRevealPwd, setIsRevealPwd] = useState(false);
-
   return (
     <>
-      <div className="login-modal">
+      <LogInRegisterModal
+        titleOfModal="Zaloguj się"
+        loginInputTitle="Login"
+        passwordInputTitle="Hasło"
+        buttonTitle="Zaloguj"
+        loginValue={""}
+        loginFunc={""}
+        passwordValue={""}
+        passwordFunc={""}
+        buttonFunc={""}
+      />
+      {/* <div className="login-modal">
         <div className="small-component">
           <p>Zaloguj się</p>
         </div>
@@ -41,7 +46,7 @@ export const LogInModal = () => {
         <div className="small-component">
           <button name="register_account">Zaloguj się</button>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

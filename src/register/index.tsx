@@ -1,42 +1,38 @@
 import { useState } from "react";
-import showPwdImg from "../img/log-register/show-password.svg";
-import hidePwdImg from "../img/log-register/hide-password.svg";
-import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
-import { LogInModal } from "../log-in";
+
+import { LogInRegisterModal } from "../modals/register-login";
+import { registerFunc } from "../function";
 
 export const Register = () => {
   const [newLogin, setNewLogin] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [password, setPassword] = useState("");
-  const [isRevealPwd, setIsRevealPwd] = useState(false);
 
-  const handleRegisterPress = (): Promise<Boolean> => {
-    const requestURL = "https://userdatabase-9fd5.restdb.io/rest/users2";
-
-    return fetch(requestURL, {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": "dad3ca6bdb2285f8eafec6a462f0d06ecccd2",
-      },
-
-      body: JSON.stringify({
-        login: newLogin,
-        password: newPassword,
-      }),
-    }).then(() => {
+  const handleRegisterPress = () => {
+    registerFunc(newLogin, newPassword).then(() => {
       setNewLogin("");
       setNewPassword("");
       return true;
     });
-    // .catch(() => {
-    //   return false;
-    // });
   };
 
   return (
     <>
-      <div className="login-modal">
+      <LogInRegisterModal
+        titleOfModal="Zarejestruj się"
+        loginInputTitle="Login"
+        passwordInputTitle="Hasło"
+        buttonTitle="Utwórz konto"
+        loginValue={newLogin}
+        loginFunc={(ev: any) => setNewLogin(ev.target.value)}
+        passwordValue={newPassword}
+        passwordFunc={(ev: any) => {
+          setNewPassword(ev.target.value);
+          setPassword(ev.target.value);
+        }}
+        buttonFunc={handleRegisterPress}
+      />
+      {/* <div className="login-modal">
         <div className="small-component">
           <p>Zarejestruj sie</p>
         </div>
@@ -78,7 +74,7 @@ export const Register = () => {
             Utwórz konto
           </button>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };
