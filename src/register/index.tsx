@@ -1,25 +1,31 @@
 import { useState } from "react";
 
 import { LogInRegisterModal } from "../modals/register-login";
-import { registerFunc } from "../function";
+import { checkUserExists } from "../function/index";
 import { AlertModal } from "../modals/alerts";
+import { registerFunc } from "../function";
+
 
 export const Register = () => {
-  const [newLogin, setNewLogin] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [password, setPassword] = useState("");
   const [alertModalVisibility, setAlertModalVisibility] = useState(false);
+  const [newPassword, setNewPassword] = useState("");
+  const [newLogin, setNewLogin] = useState("");
 
-  const handleRegisterPress = () => {
-    if (newLogin.length > 3 || newPassword.length > 3) {
+  const handleRegisterPress = async () => {
+    
+      const isUserExists = await checkUserExists(newLogin, newPassword)
+
+      if (isUserExists) {
+        setAlertModalVisibility(true)
+        return false
+      }
       registerFunc(newLogin, newPassword).then(() => {
         setNewLogin("");
         setNewPassword("");
         return true;
       });
     }
-    return setAlertModalVisibility(true);
-  };
+  
 
   return (
     <>
@@ -33,14 +39,14 @@ export const Register = () => {
         passwordValue={newPassword}
         passwordFunc={(ev: any) => {
           setNewPassword(ev.target.value);
-          setPassword(ev.target.value);
+          
         }}
         buttonFunc={handleRegisterPress}
       />
       {!alertModalVisibility ? null : (
         <AlertModal
           alertButtonFunc={() => setAlertModalVisibility(false)}
-          message="Login lub hasło zawirają mnij niż 3 znaki"
+          message="Login juz istnieje"
           confirm="OK!"
         />
       )}

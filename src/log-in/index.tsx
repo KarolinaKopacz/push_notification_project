@@ -1,8 +1,26 @@
 import { useState } from "react";
 
 import { LogInRegisterModal } from "../modals/register-login";
+import { checkUserExists } from "../function/index";
+import { AlertModal } from "../modals/alerts";
 
 export const LogInModal = () => {
+  const [customLogin, setCustomLogin] = useState("");
+  const [customPassword, setCustomPassword] = useState("");
+  const [alertModalVisibility, setAlertModalVisibility] = useState(false)
+
+  const handleLogInPress = async () => {
+ 
+    const isUserExists = await checkUserExists(customLogin, customPassword)
+
+    if (!isUserExists) {
+      setAlertModalVisibility(true)
+    }
+
+    
+  }
+    
+
   return (
     <>
       <LogInRegisterModal
@@ -10,43 +28,19 @@ export const LogInModal = () => {
         loginInputTitle="Login"
         passwordInputTitle="Hasło"
         buttonTitle="Zaloguj"
-        loginValue={""}
-        loginFunc={""}
-        passwordValue={""}
-        passwordFunc={""}
-        buttonFunc={""}
+        loginValue={customLogin}
+        loginFunc={(ev: any) => setCustomLogin(ev.target.value)}
+        passwordValue={customPassword}
+        passwordFunc={(ev: any) => setCustomPassword(ev.target.value)}
+        buttonFunc={handleLogInPress}
       />
-      {/* <div className="login-modal">
-        <div className="small-component">
-          <p>Zaloguj się</p>
-        </div>
-        <div className="small-component">
-          <p>Login</p>
-          <input
-            name="login"
-            placeholder="Enter login"
-            type="text"
-            value={""}
-          ></input>
-        </div>
-        <div className="small-component pwd-container">
-          <p>Hasło</p>
-          <input
-            name="password"
-            placeholder="Enter password"
-            value={""}
-            type={isRevealPwd ? "text" : "password"}
-          />
-          <img
-            title={isRevealPwd ? "Hide password" : "Show password"}
-            src={isRevealPwd ? hidePwdImg : showPwdImg}
-            onClick={() => setIsRevealPwd((prevState) => !prevState)}
-          />
-        </div>
-        <div className="small-component">
-          <button name="register_account">Zaloguj się</button>
-        </div>
-      </div> */}
-    </>
-  );
-};
+      {!alertModalVisibility ? null : (
+        <AlertModal
+          alertButtonFunc={() => setAlertModalVisibility(false)}
+          message="Login lub hasło są błędne"
+          confirm="OK!"
+        />
+      )}
+      </>)
+  
+}

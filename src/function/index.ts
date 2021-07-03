@@ -15,7 +15,10 @@ export const registerFunc = (loginValue: string, passwordValue: string) => {
   });
 };
 
-export const getUsers = () => {
+export const checkUserExists = (
+  customLogin: string,
+  customPassword: string
+): Promise<boolean> => {
   const requestURL = "https://userdatabase-9fd5.restdb.io/rest/users2";
 
   return fetch(requestURL, {
@@ -25,9 +28,29 @@ export const getUsers = () => {
       "x-apikey": "60d16898e2c96c46a24637ee",
     },
   })
-    .then((res: any) => res.json())
+    .then(async (response) => {
+      if (response.ok) {
+        const allUsers = (await response.json()) as {
+          login: string;
+          password: string;
+          _id: number;
+        }[];
+        const user = allUsers.find(
+          (currentUser) =>
+            currentUser.login === customLogin &&
+            currentUser.password === customPassword
+        );
+        if (!user) {
+          // user don't exists
 
+          return false;
+        }
+        return true;
+      }
+      throw new Error(response.statusText);
+    })
     .catch((err) => {
       console.log("err", err);
+      return false;
     });
 };
