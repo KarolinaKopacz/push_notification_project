@@ -1,23 +1,17 @@
-import { combineReducers } from "redux";
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import { Store } from "redux";
 import { createStore } from "redux";
 
-import { UserActionType } from "./Users/action";
-import { reducer as userReducer, State as userState } from "./Users/reducer";
-
-type AppAction = UserActionType;
+import userSlice, { State as UserState } from "./usersExists/reducer";
 
 export type AppState = {
-  articles: userState;
+  user: UserState;
 };
 
-const store: Store<AppState, AppAction> = createStore(
-  combineReducers({
-    articles: userReducer,
-  }),
-  // @ts-ignore
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
+const store: Store<AppState, any> = configureStore({
+  reducer: { user: userSlice.reducer },
+  middleware: [...getDefaultMiddleware()],
+});
 
 export type AppDispatch = typeof store.dispatch;
 export { store };

@@ -1,25 +1,28 @@
 import { useState } from "react";
 
 import { LogInRegisterModal } from "../modals/register-login";
-import { checkUserExists } from "../function/index";
 import { AlertModal } from "../modals/alerts";
+import { logIn } from "../redux/usersExists/action";
+import { useAppSelector } from "../hooks/useAppSelector";
+import { useAppDispatch } from "../hooks/useAppDispatch";
+import { resetStatus } from "../redux/usersExists/reducer";
 
 export const LogInModal = () => {
-  const [customLogin, setCustomLogin] = useState("");
   const [customPassword, setCustomPassword] = useState("");
-  const [alertModalVisibility, setAlertModalVisibility] = useState(false)
+  const [customLogin, setCustomLogin] = useState("");
+
+  const loginStatus = useAppSelector((state) => state.user.status);
+  const user = useAppSelector((state) => state.user.user);
+
+  const dispatch = useAppDispatch();
 
   const handleLogInPress = async () => {
- 
-    const isUserExists = await checkUserExists(customLogin, customPassword)
+    dispatch(logIn({ customLogin, customPassword }));
+  };
 
-    if (!isUserExists) {
-      setAlertModalVisibility(true)
-    }
-
-    
-  }
-    
+  const handleCloseAlertModal = () => {
+    dispatch(resetStatus());
+  };
 
   return (
     <>
@@ -34,13 +37,16 @@ export const LogInModal = () => {
         passwordFunc={(ev: any) => setCustomPassword(ev.target.value)}
         buttonFunc={handleLogInPress}
       />
-      {!alertModalVisibility ? null : (
+      {loginStatus === "loading" ? <p></p> : null}
+
+      {loginStatus === "succeeded" ? <p>OK!</p> : null}
+      {loginStatus === "failed" ? (
         <AlertModal
-          alertButtonFunc={() => setAlertModalVisibility(false)}
-          message="Login lub hasło są błędne"
+          onPress={handleCloseAlertModal}
+          message="hasło lub login nieprawidłowe"
           confirm="OK!"
         />
-      )}
-      </>)
-  
-}
+      ) : null}
+    </>
+  );
+};

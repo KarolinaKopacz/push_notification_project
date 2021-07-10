@@ -1,9 +1,9 @@
 export const AlertModal = (props: any) => {
-  const { message, confirm, alertButtonFunc } = props;
+  const { message, confirm, onPress } = props;
   return (
     <div className="alerts-modal">
       <p>{message}</p>
-      <button onClick={alertButtonFunc}>{confirm}</button>
+      <button onClick={onPress}>{confirm}</button>
     </div>
   );
 };

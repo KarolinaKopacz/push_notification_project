@@ -54,3 +54,45 @@ export const checkUserExists = (
       return false;
     });
 };
+
+// dla redux!!!!!
+// const checkUserExists = createAsyncThunk(
+//   "users/CHECK_USERS_EXISTS",
+//   async ({
+//     customLogin,
+//     customPassword,
+//   }: {
+//     customLogin: string;
+//     customPassword: string;
+//   }) => {
+//     return await fetch("https://userdatabase-9fd5.restdb.io/rest/users2", {
+//       method: "get",
+//       headers: {
+//         "Content-Type": "application/json",
+//         "x-apikey": "60d16898e2c96c46a24637ee",
+//       },
+//     })
+//       .then(async (response) => {
+//         if (response.ok) {
+//           const allUsers = (await response.json()) as {
+//             login: string;
+//             password: string;
+//             _id: number;
+//           }[];
+//           const user = allUsers.find(
+//             (currentUser) =>
+//               currentUser.login === customLogin &&
+//               currentUser.password === customPassword
+//           );
+//           if (!user) {
+//             throw new Error("user not found");
+//           }
+//           return user;
+//         }
+//         throw new Error(response.statusText);
+//       })
+//       .catch((err) => {
+//         return null;
+//       });
+//   }
+// );

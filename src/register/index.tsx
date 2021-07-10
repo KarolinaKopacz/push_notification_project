@@ -1,31 +1,12 @@
 import { useState } from "react";
 
 import { LogInRegisterModal } from "../modals/register-login";
-import { checkUserExists } from "../function/index";
 import { AlertModal } from "../modals/alerts";
-import { registerFunc } from "../function";
-
 
 export const Register = () => {
   const [alertModalVisibility, setAlertModalVisibility] = useState(false);
-  const [newPassword, setNewPassword] = useState("");
-  const [newLogin, setNewLogin] = useState("");
-
-  const handleRegisterPress = async () => {
-    
-      const isUserExists = await checkUserExists(newLogin, newPassword)
-
-      if (isUserExists) {
-        setAlertModalVisibility(true)
-        return false
-      }
-      registerFunc(newLogin, newPassword).then(() => {
-        setNewLogin("");
-        setNewPassword("");
-        return true;
-      });
-    }
-  
+  const [customPassword, setCustomPassword] = useState("");
+  const [customLogin, setCustomLogin] = useState("");
 
   return (
     <>
@@ -34,22 +15,20 @@ export const Register = () => {
         loginInputTitle="Login"
         passwordInputTitle="Hasło"
         buttonTitle="Utwórz konto"
-        loginValue={newLogin}
-        loginFunc={(ev: any) => setNewLogin(ev.target.value)}
-        passwordValue={newPassword}
+        loginValue={customLogin}
+        loginFunc={(ev: any) => setCustomLogin(ev.target.value)}
+        passwordValue={customPassword}
         passwordFunc={(ev: any) => {
-          setNewPassword(ev.target.value);
-          
+          setCustomPassword(ev.target.value);
         }}
-        buttonFunc={handleRegisterPress}
+        buttonFunc={() => {}}
       />
-      {!alertModalVisibility ? null : (
-        <AlertModal
-          alertButtonFunc={() => setAlertModalVisibility(false)}
-          message="Login juz istnieje"
-          confirm="OK!"
-        />
-      )}
+
+      <AlertModal
+        alertButtonFunc={() => setAlertModalVisibility(false)}
+        message="Login juz istnieje"
+        confirm="OK!"
+      />
     </>
   );
 };
