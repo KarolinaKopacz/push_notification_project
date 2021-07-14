@@ -1,10 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import { omit } from "remeda";
+import { crypt } from "../../components/encryptionFunc";
 
 const checkUserExists = createAsyncThunk(
   "users/CHECK_USERS_EXISTS",
   async ({ newLogin }: { newLogin: string }, thunkApi) => {
+    // I know I  should put it in the backend, but this is just a playground
     return await fetch("https://userdatabase-9fd5.restdb.io/rest/users2", {
       method: "get",
       headers: {
@@ -41,7 +43,11 @@ const registerNewUser = createAsyncThunk(
     newLogin: string;
     newPassword: string;
   }) => {
-    const newUser = { newLogin, newPassword };
+    // I know I  should put it in the backend, but this is just a playground
+    let newPasswordEncrypted = crypt.encrypt(newPassword);
+    const newUser = { newLogin, newPasswordEncrypted };
+    console.log("cipher", newUser);
+
     return await fetch("https://userdatabase-9fd5.restdb.io/rest/users2", {
       method: "post",
       headers: {

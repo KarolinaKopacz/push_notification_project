@@ -1,6 +1,6 @@
 export type NewRegisterType = {
   newLogin: string;
-  newPassword: string;
+  newPasswordEncrypted: string;
 };
 
 export type NewUserData = {
