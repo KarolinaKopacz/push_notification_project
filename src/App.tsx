@@ -1,9 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
-import { LogInModal } from "./log-in";
+import { LogInModal } from "./components/log-in";
 import { Newpage } from "./newpsge";
 
-import { Register } from "./register";
+import { Register } from "./components/register";
 
 import "./style.css";
 

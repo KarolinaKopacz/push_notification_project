@@ -1,7 +1,6 @@
 export type NewRegisterType = {
-  _id: string;
-  login: string;
-  password: string;
+  newLogin: string;
+  newPassword: string;
 };
 
 export type NewUserData = {
