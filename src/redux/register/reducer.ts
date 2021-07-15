@@ -33,7 +33,6 @@ export const registerNewUserSlice = createSlice({
     });
     builder.addCase(checkUserExists.fulfilled, (state, action) => {
       state.checkUserExistsStatus = "succeeded";
-      console.log("action", action);
     });
     builder.addCase(checkUserExists.rejected, (state, action) => {
       state.checkUserExistsStatus = "failed";
@@ -45,14 +44,9 @@ export const registerNewUserSlice = createSlice({
     });
     builder.addCase(registerNewUser.fulfilled, (state, action) => {
       if ("newUser" in action.payload) {
-        console.log(
-          "push",
-          state.usersList.push(action.payload.newUser as NewRegisterType)
-        );
         state.usersList.push(action.payload.newUser as NewRegisterType);
       }
       state.registerNewUserStatus = "succeeded";
-      console.log("register", action);
     });
     builder.addCase(registerNewUser.rejected, (state, action) => {
       state.registerNewUserStatus = "failed";

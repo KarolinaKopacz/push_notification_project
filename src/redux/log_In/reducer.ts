@@ -29,7 +29,6 @@ export const userSlice = createSlice({
     builder.addCase(logIn.fulfilled, (state, action) => {
       state.user = action.payload as LoggedInUserType;
       state.status = "succeeded";
-      console.log("action", action);
     });
     builder.addCase(logIn.rejected, (state, action) => {
       state.status = "failed";

@@ -23,7 +23,6 @@ const checkUserExists = createAsyncThunk(
       const user = allUsers.find(
         (currentUser) => currentUser.login === newLogin
       );
-      console.log("user", user);
 
       if (user) {
         throw new Error("login is unavailable");
@@ -46,7 +45,6 @@ const registerNewUser = createAsyncThunk(
     // I know I  should put it in the backend, but this is just a playground
     let newPasswordEncrypted = crypt.encrypt(newPassword);
     const newUser = { newLogin, newPasswordEncrypted };
-    console.log("cipher", newUser);
 
     return await fetch("https://userdatabase-9fd5.restdb.io/rest/users2", {
       method: "post",

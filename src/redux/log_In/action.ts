@@ -21,7 +21,6 @@ const logIn = createAsyncThunk(
     }).then(async (response) => {
       if (response.ok) {
         const allUsers = (await response.json()) as UserType[];
-        console.log("alluser", allUsers);
 
         const user = allUsers.find(
           (currentUser) =>

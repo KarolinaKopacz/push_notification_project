@@ -49,7 +49,6 @@ export const Register = () => {
         }}
         buttonFunc={handleRegisterPress}
       />
-      {checkUserExistsStatus === "loading" ? console.log("loading") : null}
       {checkUserExistsStatus === "succeeded" ? registerNewUserFunc() : null}
       {checkUserExistsStatus === "failed" ? (
         <AlertModal
