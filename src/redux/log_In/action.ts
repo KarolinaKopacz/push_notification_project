@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { UserType } from "./types";
 import { omit } from "remeda";
+import { crypt } from "../../components/encryptionFunc";
 
 const logIn = createAsyncThunk(
   "users/LOGIN_USERS",
@@ -20,15 +21,19 @@ const logIn = createAsyncThunk(
     }).then(async (response) => {
       if (response.ok) {
         const allUsers = (await response.json()) as UserType[];
+        console.log("alluser", allUsers);
+
         const user = allUsers.find(
           (currentUser) =>
-            currentUser.login === customLogin &&
-            currentUser.password === customPassword
+            currentUser.newLogin === customLogin &&
+            crypt.decrypt(currentUser.newPasswordEncrypted).toString() ===
+              customPassword
         );
+
         if (!user) {
           throw new Error("user not found");
         }
-        return omit(user, ["password"]);
+        return omit(user, ["newPasswordEncrypted"]);
       }
       throw new Error(response.statusText);
     });

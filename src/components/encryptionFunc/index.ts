@@ -3,7 +3,7 @@ const crypt = {
   secret: "CIPHERKEY",
 
   // (B2) ENCRYPT
-  encrypt: function (clear: any) {
+  encrypt: function (clear: string) {
     let cipher = CryptoJS.AES.encrypt(clear, crypt.secret);
 
     cipher = cipher.toString();

@@ -45,6 +45,10 @@ export const registerNewUserSlice = createSlice({
     });
     builder.addCase(registerNewUser.fulfilled, (state, action) => {
       if ("newUser" in action.payload) {
+        console.log(
+          "push",
+          state.usersList.push(action.payload.newUser as NewRegisterType)
+        );
         state.usersList.push(action.payload.newUser as NewRegisterType);
       }
       state.registerNewUserStatus = "succeeded";

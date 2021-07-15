@@ -1,10 +1,10 @@
 export type UserType = {
   _id: number;
-  login: string;
-  password: string;
+  newLogin: string;
+  newPasswordEncrypted: string;
 };
 
 export type LoggedInUserType = {
   _id: number;
-  login: string;
+  newLogin: string;
 };
