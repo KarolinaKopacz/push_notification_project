@@ -1,18 +1,17 @@
 import { useState } from "react";
 
-import { LogInRegisterModal } from "../../modals/register-login";
-import { AlertModal } from "../../modals/alerts";
-import { logIn } from "../../redux/log_In/action";
-import { useAppSelector } from "../../hooks/useAppSelector";
-import { useAppDispatch } from "../../hooks/useAppDispatch";
-import { resetStatus } from "../../redux/log_In/reducer";
+import { LogInRegisterModal } from "../../../modals/register-login";
+import { AlertModal } from "../../../modals/alerts";
+import { logIn } from "../../../redux/action";
+import { useAppSelector } from "../../../hooks/useAppSelector";
+import { useAppDispatch } from "../../../hooks/useAppDispatch";
+import { resetStatus } from "../../../redux/reducer";
 
 export const LogInModal = () => {
   const [customPassword, setCustomPassword] = useState("");
   const [customLogin, setCustomLogin] = useState("");
 
-  const loginStatus = useAppSelector((state) => state.user.status);
-  const user = useAppSelector((state) => state.user.user);
+  const loginStatus = useAppSelector((state) => state.user.loginStatus);
 
   const dispatch = useAppDispatch();
 

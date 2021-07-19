@@ -1,23 +1,23 @@
 import { useState } from "react";
 
-import { useAppSelector } from "../../hooks/useAppSelector";
-import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { useAppSelector } from "../../../hooks/useAppSelector";
+import { useAppDispatch } from "../../../hooks/useAppDispatch";
 
-import { LogInRegisterModal } from "../../modals/register-login";
-import { AlertModal } from "../../modals/alerts";
-import { checkUserExists, registerNewUser } from "../../redux/register/action";
-import { resetStatus } from "../../redux/register/reducer";
+import { LogInRegisterModal } from "../../../modals/register-login";
+import { AlertModal } from "../../../modals/alerts";
+import { checkUserExists, registerNewUser } from "../../../redux/action";
+import { resetStatus } from "../../../redux/reducer";
 
 export const Register = () => {
   const [newPassword, setNewPassword] = useState("");
   const [newLogin, setNewLogin] = useState("");
 
   const checkUserExistsStatus = useAppSelector(
-    (state) => state.newUser.checkUserExistsStatus
+    (state) => state.user.checkUserExistsStatus
   );
 
   const registerNewUserStatus = useAppSelector(
-    (state) => state.newUser.registerNewUserStatus
+    (state) => state.user.registerNewUserStatus
   );
   const dispatch = useAppDispatch();
 

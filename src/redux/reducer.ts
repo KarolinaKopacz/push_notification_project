@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { checkUserExists, registerNewUser } from "./action";
-import { NewRegisterType } from "./types";
+import { checkUserExists, logIn, registerNewUser } from "./action";
+import { NewRegisterType, LoggedInUserType } from "./types";
 
 type FetchStatus = "loading" | "succeeded" | "failed" | "idle";
 
 export type State = {
-  user: NewRegisterType | null;
+  user: NewRegisterType | LoggedInUserType | null;
   usersList: NewRegisterType[];
+  loginStatus: FetchStatus;
   checkUserExistsStatus: FetchStatus;
   registerNewUserStatus: FetchStatus;
 };
@@ -14,16 +15,22 @@ export type State = {
 const InitialState: State = {
   user: null,
   usersList: [],
+  loginStatus: "idle",
   checkUserExistsStatus: "idle",
   registerNewUserStatus: "idle",
 };
 
-export const registerNewUserSlice = createSlice({
-  name: "registerUser",
+export const userSlice = createSlice({
+  name: "user",
   initialState: InitialState,
   reducers: {
     resetStatus(state: State) {
       state.checkUserExistsStatus = "idle";
+      state.loginStatus = "idle";
+    },
+    logout(state: State) {
+      state.user = null;
+      state.loginStatus = "idle";
     },
   },
   extraReducers: (builder) => {
@@ -51,8 +58,20 @@ export const registerNewUserSlice = createSlice({
     builder.addCase(registerNewUser.rejected, (state, action) => {
       state.registerNewUserStatus = "failed";
     });
+
+    // log in
+    builder.addCase(logIn.pending, (state, action) => {
+      state.loginStatus = "loading";
+    });
+    builder.addCase(logIn.fulfilled, (state, action) => {
+      state.user = action.payload as LoggedInUserType;
+      state.loginStatus = "succeeded";
+    });
+    builder.addCase(logIn.rejected, (state, action) => {
+      state.loginStatus = "failed";
+    });
   },
 });
 
-export const { resetStatus } = registerNewUserSlice.actions;
-export default registerNewUserSlice;
+export const { resetStatus, logout } = userSlice.actions;
+export default userSlice;
