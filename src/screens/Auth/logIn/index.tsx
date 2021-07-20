@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { LogInRegisterModal } from "../../../modals/register-login";
+import { LogInRegisterModal } from "../../../modals/registerLogin";
 import { AlertModal } from "../../../modals/alerts";
 import { logIn } from "../../../redux/action";
 import { useAppSelector } from "../../../hooks/useAppSelector";

@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
-import { LogInModal } from "./log-in";
+import { LogInModal } from "./logIn";
 
 import { Register } from "./register";
 

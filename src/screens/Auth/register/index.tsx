@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useAppSelector } from "../../../hooks/useAppSelector";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 
-import { LogInRegisterModal } from "../../../modals/register-login";
+import { LogInRegisterModal } from "../../../modals/registerLogin";
 import { AlertModal } from "../../../modals/alerts";
 import { checkUserExists, registerNewUser } from "../../../redux/action";
 import { resetStatus } from "../../../redux/reducer";
