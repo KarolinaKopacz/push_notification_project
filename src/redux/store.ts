@@ -1,23 +1,48 @@
-import { combineReducers } from "redux";
-import { Store } from "redux";
 import { createStore } from "redux";
 
-import { UserActionType } from "./Users/action";
-import { reducer as userReducer, State as userState } from "./Users/reducer";
+import userSlice, { State as UserState } from "./reducer";
 
-type AppAction = UserActionType;
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
-export type AppState = {
-  articles: userState;
+const persistConfig = {
+  key: "root",
+  storage,
 };
 
-const store: Store<AppState, AppAction> = createStore(
+const persistedReducer = persistReducer(
+  persistConfig,
   combineReducers({
-    articles: userReducer,
-  }),
-  // @ts-ignore
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    user: userSlice.reducer,
+  })
 );
 
+const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
+});
+
+const persistor = persistStore(store);
+
+export { store, persistor };
+
 export type AppDispatch = typeof store.dispatch;
-export { store };
+
+export type AppState = {
+  user: UserState;
+};
