@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import { omit } from "remeda";
-import { crypt } from "../components/encryptionFunc";
+import { crypt } from "../../components/encryptionFunc";
 import { UserType } from "./types";
 
 const checkUserExists = createAsyncThunk(

@@ -5,8 +5,8 @@ import { useAppDispatch } from "../../../hooks/useAppDispatch";
 
 import { LogInRegisterModal } from "../../../modals/registerLogin";
 import { AlertModal } from "../../../modals/alerts";
-import { checkUserExists, registerNewUser } from "../../../redux/action";
-import { resetStatus } from "../../../redux/reducer";
+import { checkUserExists, registerNewUser } from "../../../redux/User/action";
+import { resetStatus } from "../../../redux/User/reducer";
 
 export const Register = () => {
   const [newPassword, setNewPassword] = useState("");

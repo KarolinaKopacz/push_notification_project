@@ -11,13 +11,7 @@ import { Home2 } from "../screens/home2";
 import { AddNotificationModal } from "./addNotification";
 
 export const MenuList = (props: any) => {
-  const {
-    firstOption,
-
-    secondOption,
-
-    thirdOption,
-  } = props;
+  const { firstOption, secondOption, thirdOption } = props;
 
   return (
     <Router>

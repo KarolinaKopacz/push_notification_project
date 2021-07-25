@@ -5,7 +5,7 @@ import { NewRegisterType, LoggedInUserType } from "./types";
 type FetchStatus = "loading" | "succeeded" | "failed" | "idle";
 
 export type State = {
-  user: NewRegisterType | LoggedInUserType | null;
+  user: LoggedInUserType | null;
   usersList: NewRegisterType[];
   loginStatus: FetchStatus;
   checkUserExistsStatus: FetchStatus;

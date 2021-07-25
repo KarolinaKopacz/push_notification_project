@@ -2,10 +2,10 @@ import { useState } from "react";
 
 import { LogInRegisterModal } from "../../../modals/registerLogin";
 import { AlertModal } from "../../../modals/alerts";
-import { logIn } from "../../../redux/action";
+import { logIn } from "../../../redux/User/action";
 import { useAppSelector } from "../../../hooks/useAppSelector";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
-import { resetStatus } from "../../../redux/reducer";
+import { resetStatus } from "../../../redux/User/reducer";
 
 export const LogInModal = () => {
   const [customPassword, setCustomPassword] = useState("");
