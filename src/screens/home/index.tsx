@@ -1,4 +1,6 @@
 import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { AddNotificationModal } from "../../modals/addNotification";
+import { MenuList } from "../../modals/menuList";
 
 import { logout } from "../../redux/reducer";
 
@@ -14,6 +16,11 @@ export const Home = (props: any) => {
     <div>
       <p>{userName}</p>
       <button onClick={handleLogOutPress}>Wyloguj</button>
+      <MenuList
+        firstOption="Home"
+        secondOption="Dodaj przypomnienie"
+        thirdOption="Lista przypomnień"
+      />
     </div>
   );
 };
