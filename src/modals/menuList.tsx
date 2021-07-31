@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 
 import { Home2 } from "../screens/home2";
-import { AddNotificationModal } from "./addNotification";
+import { AddNotificationView } from "../screens/AddNotification";
 
 export const MenuList = (props: any) => {
   const { firstOption, secondOption, thirdOption } = props;
@@ -32,17 +32,7 @@ export const MenuList = (props: any) => {
           <Home2 />
         </Route>
         <Route path={`/ ${secondOption}`}>
-          <AddNotificationModal
-            title="Przypomnienie"
-            notificationName="Nazwa przypomnienia"
-            timing="Ustaw czas przypomnienia"
-            saveButtonName="Zapisz"
-            natificationNameValue={() => {}}
-            onChangeNotificationName={() => {}}
-            onPress={() => {}}
-            onChangeDate={() => {}}
-            onChangeTime={() => {}}
-          />
+          <AddNotificationView />
         </Route>
         <Route path={`/ ${thirdOption}`}>
           <p>{thirdOption}</p>

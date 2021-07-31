@@ -11,6 +11,8 @@ export const AddNotificationModal = (props: any) => {
     onPress,
     onChangeDate,
     onChangeTime,
+    dateValue,
+    timeValue,
   } = props;
 
   return (
@@ -27,8 +29,8 @@ export const AddNotificationModal = (props: any) => {
       </div>
       <div className="small-component pwd-container">
         <p>{timing}</p>
-        <input type="date" onChange={onChangeDate} />
-        <input type="time" onChange={onChangeTime} />
+        <input type="date" value={dateValue} onChange={onChangeDate} />
+        <input type="time" value={timeValue} onChange={onChangeTime} />
       </div>
 
       <div className="small-component">
