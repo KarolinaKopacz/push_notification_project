@@ -7,8 +7,8 @@ import {
   useRouteMatch,
 } from "react-router-dom";
 
-import { Home2 } from "../screens/home2";
-import { AddNotificationView } from "../screens/AddNotification";
+import { ListOfNotifications } from "../screens/UserPanel/ListOfNotification";
+import { AddNotificationView } from "../screens/UserPanel/AddNotification";
 
 export const MenuList = (props: any) => {
   const { firstOption, secondOption, thirdOption } = props;
@@ -29,13 +29,13 @@ export const MenuList = (props: any) => {
 
       <Switch>
         <Route path={`/ ${firstOption}`}>
-          <Home2 />
+          <p>Home</p>
         </Route>
         <Route path={`/ ${secondOption}`}>
           <AddNotificationView />
         </Route>
         <Route path={`/ ${thirdOption}`}>
-          <p>{thirdOption}</p>
+          <ListOfNotifications />
         </Route>
       </Switch>
     </Router>

@@ -4,7 +4,7 @@ import "./style.css";
 import { useAppSelector } from "./hooks/useAppSelector";
 
 import { Auth } from "./screens/Auth";
-import { Home } from "./screens/home";
+import { Home } from "./screens/UserPanel/home";
 
 function App() {
   const userIsLogged = useAppSelector((state) => state.user.user);

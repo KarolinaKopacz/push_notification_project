@@ -1,8 +1,8 @@
-import { useAppDispatch } from "../../hooks/useAppDispatch";
-import { AddNotificationModal } from "../../modals/addNotification";
-import { MenuList } from "../../modals/menuList";
+import { useAppDispatch } from "../../../hooks/useAppDispatch";
+import { AddNotificationModal } from "../../../modals/addNotification";
+import { MenuList } from "../../../modals/menuList";
 
-import { logout } from "../../redux/User/reducer";
+import { logout } from "../../../redux/User/reducer";
 
 export const Home = (props: any) => {
   const { userName, userId } = props;

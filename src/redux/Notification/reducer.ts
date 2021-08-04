@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { NotificationType, NotificationList } from "./types";
-import { saveNewNotification } from "./action";
+import { saveNewNotification, getNotificationsList } from "./action";
 
 type FetchStatus = "loading" | "succeeded" | "failed" | "idle";
 
@@ -11,6 +11,7 @@ export type State = {
   EditStatus: FetchStatus;
   saveStatus: FetchStatus;
   deletestatus: FetchStatus;
+  getListStatus: FetchStatus;
 };
 
 const InitialState: State = {
@@ -19,6 +20,7 @@ const InitialState: State = {
   EditStatus: "idle",
   saveStatus: "idle",
   deletestatus: "idle",
+  getListStatus: "idle",
 };
 
 export const notificationSlice = createSlice({
@@ -26,6 +28,7 @@ export const notificationSlice = createSlice({
   initialState: InitialState,
   reducers: {},
   extraReducers: (builder) => {
+    // save notification
     builder.addCase(saveNewNotification.pending, (state, action) => {
       state.saveStatus = "loading";
     });
@@ -39,6 +42,18 @@ export const notificationSlice = createSlice({
     });
     builder.addCase(saveNewNotification.rejected, (state, action) => {
       state.saveStatus = "failed";
+    });
+
+    // get notification list
+    builder.addCase(getNotificationsList.pending, (state, action) => {
+      state.getListStatus = "loading";
+    });
+    builder.addCase(getNotificationsList.fulfilled, (state, action) => {
+      state.notificationList = action.payload as NotificationList[];
+      state.getListStatus = "succeeded";
+    });
+    builder.addCase(getNotificationsList.rejected, (state, action) => {
+      state.getListStatus = "failed";
     });
   },
 });

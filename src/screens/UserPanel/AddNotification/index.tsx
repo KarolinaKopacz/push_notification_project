@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { identity } from "remeda";
 
-import { useAppSelector } from "../..//hooks/useAppSelector";
-import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { useAppSelector } from "../../../hooks/useAppSelector";
+import { useAppDispatch } from "../../../hooks/useAppDispatch";
 
-import { AddNotificationModal } from "../../modals/addNotification";
-import { saveNewNotification } from "../../redux/Notification/action";
+import { AddNotificationModal } from "../../../modals/addNotification";
+import { saveNewNotification } from "../../../redux/Notification/action";
 
 export const AddNotificationView = () => {
   const [notName, setNotName] = useState("");
