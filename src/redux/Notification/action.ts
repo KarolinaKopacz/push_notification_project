@@ -1,7 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { omit } from "remeda";
-import { crypt } from "../../components/encryptionFunc";
 import { NotificationList } from "./types";
 
 const saveNewNotification = createAsyncThunk(

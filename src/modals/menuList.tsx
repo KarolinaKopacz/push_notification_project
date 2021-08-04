@@ -1,11 +1,5 @@
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { useState } from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useRouteMatch,
-} from "react-router-dom";
 
 import { ListOfNotifications } from "../screens/UserPanel/ListOfNotification";
 import { AddNotificationView } from "../screens/UserPanel/AddNotification";

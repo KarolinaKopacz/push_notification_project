@@ -1,11 +1,10 @@
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
-import { AddNotificationModal } from "../../../modals/addNotification";
-import { MenuList } from "../../../modals/menuList";
 
+import { MenuList } from "../../../modals/menuList";
 import { logout } from "../../../redux/User/reducer";
 
 export const Home = (props: any) => {
-  const { userName, userId } = props;
+  const { userName } = props;
   const dispatch = useAppDispatch();
 
   const handleLogOutPress = () => {

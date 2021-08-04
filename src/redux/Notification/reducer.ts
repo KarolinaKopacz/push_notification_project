@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { NotificationType, NotificationList } from "./types";
 import { saveNewNotification, getNotificationsList } from "./action";
+import { NotificationType, NotificationList } from "./types";
 
 type FetchStatus = "loading" | "succeeded" | "failed" | "idle";
 

@@ -47,10 +47,6 @@ export const LogInRegisterModal = (props: any) => {
           onClick={() => setIsRevealPwd((prevState) => !prevState)}
         />
       </div>
-      {/* <div className="small-component">
-          <p>Powtórz hasło</p>
-          <input name="password_repeat"></input>
-        </div> */}
       <div className="small-component">
         <button name="register_account" onClick={buttonFunc}>
           {buttonTitle}
