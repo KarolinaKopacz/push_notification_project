@@ -26,7 +26,6 @@ export const LogInModal = () => {
   return (
     <>
       <LogInRegisterModal
-        titleOfModal="Zaloguj się"
         loginInputTitle="Login"
         passwordInputTitle="Hasło"
         buttonTitle="Zaloguj"
@@ -42,7 +41,7 @@ export const LogInModal = () => {
       {loginStatus === "failed" ? (
         <AlertModal
           onPress={handleCloseAlertModal}
-          message="hasło lub login nieprawidłowe"
+          message="Hasło lub login jest nieprawidłowy."
           confirm="OK!"
         />
       ) : null}

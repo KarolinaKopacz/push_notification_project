@@ -1,23 +1,25 @@
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
-import { LogInModal } from "./logIn";
+import { Col, Row, Container, Button } from "react-bootstrap";
 
+import { LogInModal } from "./logIn";
 import { Register } from "./register";
 
 export const Auth = () => {
   return (
     <Router>
-      <div className="app">
-        <div className="app-header">
-          <p>
-            <Link to="/register">Zarejestruj sie</Link>
-          </p>
+      <Container>
+        <Row>
+          <Col>
+            <Button variant="outline-secondary">
+              <Link to="/register">Zarejestruj sie</Link>
+            </Button>
 
-          <p>/</p>
-          <p>
-            <Link to="/log-in">Zaloguj się</Link>
-          </p>
-        </div>
-      </div>
+            <Button variant="outline-secondary">
+              <Link to="/log-in">Zaloguj się</Link>
+            </Button>
+          </Col>
+        </Row>
+      </Container>
 
       <Switch>
         <Route path="/register">

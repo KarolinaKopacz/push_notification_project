@@ -4,18 +4,22 @@ import { omit } from "remeda";
 import { crypt } from "../../components/encryptionFunc";
 import { UserType } from "./types";
 
+const fetchURL = "https://random-a2c6.restdb.io/rest/randomus";
+const urlPass = "610e949a69fac573b50a52f5";
+
 const checkUserExists = createAsyncThunk(
   "users/CHECK_USERS_EXISTS",
-  async ({ newLogin }: { newLogin: string }, thunkApi) => {
+  async ({ newLogin }: { newLogin: string }) => {
     // I know I  should put it in the backend, but this is just a playground
-    return await fetch("https://userdatabase-9fd5.restdb.io/rest/users2", {
+    return await fetch(fetchURL, {
       method: "get",
       headers: {
         "Content-Type": "application/json",
-        "x-apikey": "60d16898e2c96c46a24637ee",
+        "x-apikey": urlPass,
       },
     }).then(async (response) => {
       // if (response.ok) {
+
       const allUsers = (await response.json()) as {
         login: string;
         password: string;
@@ -47,11 +51,11 @@ const registerNewUser = createAsyncThunk(
     let newPasswordEncrypted = crypt.encrypt(newPassword);
     const newUser = { newLogin, newPasswordEncrypted };
 
-    return await fetch("https://userdatabase-9fd5.restdb.io/rest/users2", {
+    return await fetch(fetchURL, {
       method: "post",
       headers: {
         "Content-Type": "application/json",
-        "x-apikey": "60d16898e2c96c46a24637ee",
+        "x-apikey": urlPass,
       },
 
       body: JSON.stringify(newUser),
@@ -73,11 +77,11 @@ const logIn = createAsyncThunk(
     customLogin: string;
     customPassword: string;
   }) => {
-    return await fetch("https://userdatabase-9fd5.restdb.io/rest/users2", {
+    return await fetch(fetchURL, {
       method: "get",
       headers: {
         "Content-Type": "application/json",
-        "x-apikey": "60d16898e2c96c46a24637ee",
+        "x-apikey": urlPass,
       },
     }).then(async (response) => {
       if (response.ok) {

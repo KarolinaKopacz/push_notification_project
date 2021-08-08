@@ -1,6 +1,7 @@
 import { useState } from "react";
 import showPwdImg from "../img/log-register/show-password.svg";
 import hidePwdImg from "../img/log-register/hide-password.svg";
+import { Container, Button, Col, Form, Row } from "react-bootstrap";
 
 export const LogInRegisterModal = (props: any) => {
   const {
@@ -18,40 +19,38 @@ export const LogInRegisterModal = (props: any) => {
   const [isRevealPwd, setIsRevealPwd] = useState(false);
 
   return (
-    <div className="login-modal">
-      <div className="small-component">
-        <p>{titleOfModal}</p>
-      </div>
-      <div className="small-component">
-        <p>{loginInputTitle}</p>
-        <input
-          name="login"
-          placeholder="Enter login"
-          type="text"
-          value={loginValue}
-          onChange={loginFunc}
-        ></input>
-      </div>
-      <div className="small-component pwd-container">
-        <p>{passwordInputTitle}</p>
-        <input
-          name="password"
-          placeholder="Enter password"
-          value={passwordValue}
-          type={isRevealPwd ? "text" : "password"}
-          onChange={passwordFunc}
-        />
-        <img
-          title={isRevealPwd ? "Hide password" : "Show password"}
-          src={isRevealPwd ? hidePwdImg : showPwdImg}
-          onClick={() => setIsRevealPwd((prevState) => !prevState)}
-        />
-      </div>
-      <div className="small-component">
-        <button name="register_account" onClick={buttonFunc}>
-          {buttonTitle}
-        </button>
-      </div>
-    </div>
+    <>
+      <Container>
+        <Row>
+          <Col sm={"auto"}>
+            <Form>
+              <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Label>{loginInputTitle}</Form.Label>
+                <Form.Control
+                  type="email"
+                  placeholder="Enter login"
+                  value={loginValue}
+                  onChange={loginFunc}
+                ></Form.Control>
+              </Form.Group>
+            </Form>
+            <Form>
+              <Form.Group className="mb-3" controlId="formBasicPassword">
+                <Form.Label>{passwordInputTitle}</Form.Label>
+                <Form.Control
+                  type="password"
+                  placeholder="Enter password"
+                  value={passwordValue}
+                  onChange={passwordFunc}
+                ></Form.Control>
+              </Form.Group>
+              <Button variant="primary" onClick={buttonFunc}>
+                {buttonTitle}
+              </Button>
+            </Form>
+          </Col>
+        </Row>
+      </Container>
+    </>
   );
 };

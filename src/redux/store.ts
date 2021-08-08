@@ -1,9 +1,9 @@
 import { createStore } from "redux";
 
-import userSlice, { State as UserState } from "./reducer";
+import userSlice, { State as UserState } from "./User/reducer";
 import notificationSlice, {
   State as NotificationState,
-} from "../Notification/reducer";
+} from "./Notification/reducer";
 
 import {
   persistStore,
@@ -18,6 +18,10 @@ import {
 import storage from "redux-persist/lib/storage";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
+export type AppState = {
+  user: UserState;
+  notification: NotificationState;
+};
 const persistConfig = {
   key: "root",
   storage,
@@ -46,8 +50,3 @@ const persistor = persistStore(store);
 export { store, persistor };
 
 export type AppDispatch = typeof store.dispatch;
-
-export type AppState = {
-  user: UserState;
-  notification: NotificationState;
-};
