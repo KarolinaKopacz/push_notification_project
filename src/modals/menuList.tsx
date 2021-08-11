@@ -1,26 +1,45 @@
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { useState } from "react";
+
+import { Nav } from "react-bootstrap";
+
+import { useAppDispatch } from "../hooks/useAppDispatch";
 
 import { ListOfNotifications } from "../screens/UserPanel/ListOfNotification";
 import { AddNotificationView } from "../screens/UserPanel/AddNotification";
+import { logout } from "../redux/User/reducer";
 
 export const MenuList = (props: any) => {
-  const { firstOption, secondOption, thirdOption } = props;
+  const { firstOption, secondOption, thirdOption, userName } = props;
 
+  const dispatch = useAppDispatch();
+
+  const handleLogOutPress = () => {
+    dispatch(logout());
+  };
   return (
     <Router>
-      <div>
-        <li>
-          <Link to={`/ ${firstOption}`}>{firstOption}</Link>
-        </li>
-        <li>
-          <Link to={`/ ${secondOption}`}>{secondOption}</Link>
-        </li>
-        <li>
-          <Link to={`/ ${thirdOption}`}>{thirdOption}</Link>
-        </li>
-      </div>
+      <Nav className="justify-content-end" justify variant="tabs">
+        <Nav.Item>
+          <Nav.Link>
+            <Link to={`/ ${firstOption}`}>{firstOption}</Link>
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link>
+            <Link to={`/ ${secondOption}`}>{secondOption}</Link>
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link>
+            <Link to={`/ ${thirdOption}`}>{thirdOption}</Link>
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <p>Witaj, {userName}!</p>
 
+          <button onClick={handleLogOutPress}>Wyloguj</button>
+        </Nav.Item>
+      </Nav>
       <Switch>
         <Route path={`/ ${firstOption}`}>
           <p>Home</p>

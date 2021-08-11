@@ -26,7 +26,12 @@ const InitialState: State = {
 export const notificationSlice = createSlice({
   name: "notification",
   initialState: InitialState,
-  reducers: {},
+  reducers: {
+    resetStatus(state: State) {
+      state.saveStatus = "idle";
+      state.getListStatus = "idle";
+    },
+  },
   extraReducers: (builder) => {
     // save notification
     builder.addCase(saveNewNotification.pending, (state, action) => {
@@ -58,5 +63,5 @@ export const notificationSlice = createSlice({
   },
 });
 
-export const {} = notificationSlice.actions;
+export const { resetStatus } = notificationSlice.actions;
 export default notificationSlice;
