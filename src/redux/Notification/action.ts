@@ -2,6 +2,9 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import { NotificationList } from "./types";
 
+const fetchURL = "https://notificationbase-52e5.restdb.io/rest/notification";
+const urlPass = "61056fb569fac573b50a505b";
+
 const saveNewNotification = createAsyncThunk(
   "notification/SAVE_NEW_NOTIFICATION",
   async ({
@@ -17,18 +20,15 @@ const saveNewNotification = createAsyncThunk(
 
     const newNotification = { description, date, time };
 
-    return await fetch(
-      " https://notificationbase-52e5.restdb.io/rest/notification",
-      {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-          "x-apikey": "61056fb569fac573b50a505b",
-        },
+    return await fetch(fetchURL, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+        "x-apikey": urlPass,
+      },
 
-        body: JSON.stringify(newNotification),
-      }
-    ).then((response) => {
+      body: JSON.stringify(newNotification),
+    }).then((response) => {
       if (response.ok) {
         return { newNotification };
       }
@@ -40,16 +40,13 @@ const saveNewNotification = createAsyncThunk(
 const getNotificationsList = createAsyncThunk(
   "notification/GET_NOTIFICATIONS_LIST",
   async () => {
-    return await fetch(
-      "https://notificationbase-52e5.restdb.io/rest/notification",
-      {
-        method: "get",
-        headers: {
-          "Content-Type": "application/json",
-          "x-apikey": "61056fb569fac573b50a505b",
-        },
-      }
-    ).then(async (response) => {
+    return await fetch(fetchURL, {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+        "x-apikey": urlPass,
+      },
+    }).then(async (response) => {
       if (response.ok) {
         const allNotifications = (await response.json()) as NotificationList[];
 
@@ -60,4 +57,27 @@ const getNotificationsList = createAsyncThunk(
   }
 );
 
-export { saveNewNotification, getNotificationsList };
+const deleteNotification = createAsyncThunk(
+  "notification/DELETE_NOTIFICATION",
+  async ({ id }: { id: number }) => {
+    console.log("id", id);
+    return await fetch(
+      `https://notificationbase-52e5.restdb.io/rest/notification/${id}`,
+      {
+        method: "delete",
+        headers: {
+          "Content-Type": "application/json",
+          "x-apikey": urlPass,
+        },
+      }
+    ).then(async (response) => {
+      if (response.ok) {
+        const deletedId = id;
+        return { deletedId };
+      }
+      throw new Error(response.statusText);
+    });
+  }
+);
+
+export { saveNewNotification, getNotificationsList, deleteNotification };

@@ -5,6 +5,7 @@ export type NotificationType = {
 };
 
 export type NotificationList = {
+  _id: number;
   description: string;
   date: string;
   time: string;

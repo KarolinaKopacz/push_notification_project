@@ -1,6 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { saveNewNotification, getNotificationsList } from "./action";
+import {
+  saveNewNotification,
+  getNotificationsList,
+  deleteNotification,
+} from "./action";
 import { NotificationType, NotificationList } from "./types";
 
 type FetchStatus = "loading" | "succeeded" | "failed" | "idle";
@@ -10,7 +14,7 @@ export type State = {
   notificationList: NotificationList[];
   EditStatus: FetchStatus;
   saveStatus: FetchStatus;
-  deletestatus: FetchStatus;
+  deleteStatus: FetchStatus;
   getListStatus: FetchStatus;
 };
 
@@ -19,7 +23,7 @@ const InitialState: State = {
   notificationList: [],
   EditStatus: "idle",
   saveStatus: "idle",
-  deletestatus: "idle",
+  deleteStatus: "idle",
   getListStatus: "idle",
 };
 
@@ -59,6 +63,21 @@ export const notificationSlice = createSlice({
     });
     builder.addCase(getNotificationsList.rejected, (state, action) => {
       state.getListStatus = "failed";
+    });
+
+    // delete notification
+    builder.addCase(deleteNotification.pending, (state, action) => {
+      state.deleteStatus = "loading";
+    });
+    builder.addCase(deleteNotification.fulfilled, (state, action) => {
+      console.log("action", action);
+      if ("deletedId" in action.payload) {
+        state.notificationList.splice(action.payload.deletedId, 1);
+      }
+      state.deleteStatus = "succeeded";
+    });
+    builder.addCase(deleteNotification.rejected, (state, action) => {
+      state.deleteStatus = "failed";
     });
   },
 });

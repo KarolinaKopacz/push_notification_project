@@ -7,14 +7,23 @@ import { Table, Spinner } from "react-bootstrap";
 import { useAppSelector } from "../../../hooks/useAppSelector";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 
-import { getNotificationsList } from "../../../redux/Notification/action";
+import {
+  deleteNotification,
+  getNotificationsList,
+} from "../../../redux/Notification/action";
 import { resetStatus } from "../../../redux/Notification/reducer";
 import { AlertModal } from "../../../modals/alerts";
+import { isTemplateExpression } from "typescript";
+import { useState } from "react";
 
 export const ListOfNotifications = () => {
   const getListStatus = useAppSelector(
     (state) => state.notification.getListStatus
   );
+
+  // const deleteStatus = useAppSelector(
+  //   (state) => state.notification.deleteStatus
+  // );
 
   const listOf = useAppSelector((state) => state.notification.notificationList);
 
@@ -27,6 +36,10 @@ export const ListOfNotifications = () => {
   const handleCloseAlertModal = () => {
     dispatch(resetStatus());
     dispatch(getNotificationsList());
+  };
+
+  const handleEditPress = (key: number) => {
+    dispatch(deleteNotification({ id: key }));
   };
 
   return (
@@ -44,19 +57,27 @@ export const ListOfNotifications = () => {
           <Spinner animation="border" role="status" />
         ) : null}
         {getListStatus === "succeeded"
-          ? listOf.map((item) => (
-              <tbody>
-                <tr>
-                  <td>{item.description}</td>
-                  <td>{item.date}</td>
-                  <td>{item.time}</td>
-                  <td>
-                    <FontAwesomeIcon icon={faEdit} onClick={() => {}} />
-                    <FontAwesomeIcon icon={faTrashAlt} onClick={() => {}} />
-                  </td>
-                </tr>
-              </tbody>
-            ))
+          ? listOf.map((item) => {
+              return (
+                <tbody>
+                  <tr>
+                    <td>{item.description}</td>
+                    <td>{item.date}</td>
+                    <td>{item.time}</td>
+                    <td>
+                      <FontAwesomeIcon icon={faEdit} />
+                      <FontAwesomeIcon
+                        key={item._id}
+                        icon={faTrashAlt}
+                        onClick={() => {
+                          handleEditPress(item._id);
+                        }}
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              );
+            })
           : null}
         {getListStatus === "failed" ? (
           <AlertModal
