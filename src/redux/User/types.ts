@@ -9,12 +9,12 @@ export type NewUserData = {
 };
 
 export type UserType = {
-  _id: number;
+  _id: string;
   newLogin: string;
   newPasswordEncrypted: string;
 };
 
 export type LoggedInUserType = {
-  _id: number;
+  _id: string;
   newLogin: string;
 };

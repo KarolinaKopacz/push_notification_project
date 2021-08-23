@@ -9,11 +9,12 @@ import { useAppDispatch } from "../../../hooks/useAppDispatch";
 
 import {
   deleteNotification,
+  editNotification,
   getNotificationsList,
 } from "../../../redux/Notification/action";
 import { resetStatus } from "../../../redux/Notification/reducer";
 import { AlertModal } from "../../../modals/alerts";
-import { isTemplateExpression } from "typescript";
+import { AddNotificationModal } from "../../../modals/addNotification";
 import { useState } from "react";
 
 export const ListOfNotifications = () => {
@@ -21,25 +22,41 @@ export const ListOfNotifications = () => {
     (state) => state.notification.getListStatus
   );
 
-  // const deleteStatus = useAppSelector(
-  //   (state) => state.notification.deleteStatus
-  // );
+  const userId = useAppSelector((state) => state.user.user?._id);
 
   const listOf = useAppSelector((state) => state.notification.notificationList);
 
   const dispatch = useAppDispatch();
 
+  const [modalShow, setModalShow] = useState(false);
+  const [notName, setNotName] = useState("");
+  const [customDate, setCustomDate] = useState("");
+  const [customTime, setCustomTime] = useState("");
+
   useEffect(() => {
-    dispatch(getNotificationsList());
-  }, []);
+    if (!userId) {
+      return;
+    }
+
+    dispatch(getNotificationsList({ userId }));
+  }, [userId]);
 
   const handleCloseAlertModal = () => {
     dispatch(resetStatus());
-    dispatch(getNotificationsList());
   };
 
-  const handleEditPress = (key: number) => {
-    dispatch(deleteNotification({ id: key }));
+  const handleDeletePress = (id: string) => {
+    dispatch(deleteNotification({ id }));
+  };
+
+  const handleEditPress = (
+    id: string,
+    description: string,
+    date: string,
+    time: string
+  ) => {
+    dispatch(editNotification({ id, description, date, time }));
+    setModalShow(false);
   };
 
   return (
@@ -59,22 +76,40 @@ export const ListOfNotifications = () => {
         {getListStatus === "succeeded"
           ? listOf.map((item) => {
               return (
-                <tbody>
+                <tbody key={item._id}>
                   <tr>
                     <td>{item.description}</td>
                     <td>{item.date}</td>
                     <td>{item.time}</td>
                     <td>
-                      <FontAwesomeIcon icon={faEdit} />
+                      <a onClick={() => setModalShow(true)}>
+                        <FontAwesomeIcon key={item._id} icon={faEdit} />
+                      </a>
                       <FontAwesomeIcon
-                        key={item._id}
                         icon={faTrashAlt}
                         onClick={() => {
-                          handleEditPress(item._id);
+                          handleDeletePress(item._id);
                         }}
                       />
                     </td>
                   </tr>
+                  <AddNotificationModal
+                    show={modalShow}
+                    title="Edytuj przypomnienie"
+                    notificationName="Nazwa przypomnienia"
+                    defaultValue={item.description}
+                    onChangeNotificationName={(ev: any) =>
+                      setNotName(ev.target.value)
+                    }
+                    dateAndTimeSectionName="Ustaw czas i datę"
+                    defaultDateValue={item.date}
+                    onChangeDate={(ev: any) => setCustomDate(ev.target.value)}
+                    defaultTimeValue={item.time}
+                    onChangeTime={(ev: any) => setCustomTime(ev.target.value)}
+                    onPress={() =>
+                      handleEditPress(item._id, notName, customDate, customTime)
+                    }
+                  />
                 </tbody>
               );
             })

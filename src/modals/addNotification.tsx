@@ -1,39 +1,58 @@
+import { Button, Modal } from "react-bootstrap";
+
 export const AddNotificationModal = (props: any) => {
   const {
+    show,
     title,
     notificationName,
-    timing,
-    saveButtonName,
-    natificationNameValue,
+    dateAndTimeSectionName,
+    notificationNameValue,
     onChangeNotificationName,
     onPress,
     onChangeDate,
     onChangeTime,
-    dateValue,
-    timeValue,
+    defaultValue,
+    defaultDateValue,
+    defaultTimeValue,
   } = props;
 
   return (
-    <div className="login-modal">
-      <div className="small-component">
-        <p>{title}</p>
-      </div>
-      <div className="small-component">
-        <p>{notificationName}</p>
-        <input
-          value={natificationNameValue}
-          onChange={onChangeNotificationName}
-        ></input>
-      </div>
-      <div className="small-component pwd-container">
-        <p>{timing}</p>
-        <input type="date" value={dateValue} onChange={onChangeDate} />
-        <input type="time" value={timeValue} onChange={onChangeTime} />
-      </div>
-
-      <div className="small-component">
-        <button onClick={onPress}>{saveButtonName}</button>
-      </div>
-    </div>
+    <Modal
+      show={show}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header>
+        <Modal.Title id="contained-modal-title-vcenter">{title}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <div className="small-component">
+          <p>{notificationName}</p>
+          <input
+            type="text"
+            defaultValue={defaultValue}
+            value={notificationNameValue}
+            onChange={onChangeNotificationName}
+          ></input>
+        </div>
+        <div className="small-component pwd-container">
+          <p>{dateAndTimeSectionName}</p>
+          <input
+            type="date"
+            defaultValue={defaultDateValue}
+            onChange={onChangeDate}
+          />
+          <input
+            type="time"
+            defaultValue={defaultTimeValue}
+            onChange={onChangeTime}
+          />
+        </div>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={onPress}>Zapisz</Button>
+      </Modal.Footer>
+    </Modal>
   );
 };

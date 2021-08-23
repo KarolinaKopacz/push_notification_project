@@ -97,6 +97,7 @@ const logIn = createAsyncThunk(
         if (!user) {
           throw new Error("user not found");
         }
+
         return omit(user, ["newPasswordEncrypted"]);
       }
       throw new Error(response.statusText);

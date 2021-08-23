@@ -4,6 +4,7 @@ import {
   saveNewNotification,
   getNotificationsList,
   deleteNotification,
+  editNotification,
 } from "./action";
 import { NotificationType, NotificationList } from "./types";
 
@@ -71,13 +72,30 @@ export const notificationSlice = createSlice({
     });
     builder.addCase(deleteNotification.fulfilled, (state, action) => {
       console.log("action", action);
-      if ("deletedId" in action.payload) {
-        state.notificationList.splice(action.payload.deletedId, 1);
+      if ("id" in action.payload && action.payload.id) {
+        state.notificationList.filter(
+          // @ts-ignore
+          (notification) => notification._id !== action.payload.id
+        );
       }
       state.deleteStatus = "succeeded";
     });
     builder.addCase(deleteNotification.rejected, (state, action) => {
       state.deleteStatus = "failed";
+    });
+
+    // edit
+    builder.addCase(editNotification.pending, (state, action) => {
+      state.EditStatus = "loading";
+    });
+    builder.addCase(editNotification.fulfilled, (state, action) => {
+      console.log("action edit", action);
+      state.notificationList = action.payload.modifiedNotificationList;
+      state.EditStatus = "succeeded";
+    });
+    builder.addCase(editNotification.rejected, (state, action) => {
+      console.log("Error!", action);
+      state.EditStatus = "failed";
     });
   },
 });

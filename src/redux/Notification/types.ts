@@ -1,11 +1,11 @@
 export type NotificationType = {
-  _id: number;
+  _id: string;
   description: string;
   date: string;
 };
 
 export type NotificationList = {
-  _id: number;
+  _id: string;
   description: string;
   date: string;
   time: string;

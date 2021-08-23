@@ -20,19 +20,13 @@ export const MenuList = (props: any) => {
     <Router>
       <Nav className="justify-content-end" justify variant="tabs">
         <Nav.Item>
-          <Nav.Link>
-            <Link to={`/ ${firstOption}`}>{firstOption}</Link>
-          </Nav.Link>
+          <Link to={`/ ${firstOption}`}>{firstOption}</Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link>
-            <Link to={`/ ${secondOption}`}>{secondOption}</Link>
-          </Nav.Link>
+          <Link to={`/ ${secondOption}`}>{secondOption}</Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link>
-            <Link to={`/ ${thirdOption}`}>{thirdOption}</Link>
-          </Nav.Link>
+          <Link to={`/ ${thirdOption}`}>{thirdOption}</Link>
         </Nav.Item>
         <Nav.Item>
           <p>Witaj, {userName}!</p>

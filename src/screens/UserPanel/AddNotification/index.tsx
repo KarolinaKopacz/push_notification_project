@@ -29,11 +29,12 @@ export const AddNotificationView = () => {
   return (
     <>
       <AddNotificationModal
+        show={true}
         title="Przypomnienie"
         notificationName="Nazwa przypomnienia"
         timing="Ustaw czas przypomnienia"
         saveButtonName="Zapisz"
-        natificationNameValue={notName}
+        notificationNameValue={notName}
         onChangeNotificationName={(ev: any) => setNotName(ev.target.value)}
         onPress={handleSavePress}
         dateValue={customDate}
