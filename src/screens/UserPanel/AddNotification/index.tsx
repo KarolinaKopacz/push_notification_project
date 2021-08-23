@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { identity } from "remeda";
 
 import { useAppSelector } from "../../../hooks/useAppSelector";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
-import { Button } from "react-bootstrap";
+import { Alert, Button } from "react-bootstrap";
 
 import { AddNotificationModal } from "../../../modals/addNotification";
 import { saveNewNotification } from "../../../redux/Notification/action";
+import { resetStatus } from "../../../redux/Notification/reducer";
+import { useEffect } from "react";
 
 export const AddNotificationView = () => {
   const [notName, setNotName] = useState("");
@@ -18,6 +19,11 @@ export const AddNotificationView = () => {
 
   const saveStatus = useAppSelector((state) => state.notification.saveStatus);
 
+  useEffect(() => {
+    console.log("reset");
+    resetStatus();
+  }, []);
+
   const handleSavePress = () => {
     dispatch(
       saveNewNotification({
@@ -26,6 +32,8 @@ export const AddNotificationView = () => {
         time: customTime,
       })
     );
+    setShowModal(false);
+    resetStatus();
   };
 
   return (
@@ -52,9 +60,15 @@ export const AddNotificationView = () => {
         onChangeTime={(ev: any) => setCustomTime(ev.target.value)}
       />
 
-      {saveStatus === "succeeded" ? console.log("save ok") : null}
-      {saveStatus === "loading" ? console.log("save load") : null}
-      {saveStatus === "failed" ? console.log("save wrong") : null}
+      {saveStatus === "succeeded" ? (
+        <Alert variant="success">Przypomnienie zapisane!</Alert>
+      ) : null}
+      {saveStatus === "loading" ? (
+        <Alert variant="warning">Zapisywanie...</Alert>
+      ) : null}
+      {saveStatus === "failed" ? (
+        <Alert variant="danger">Przypomnienie nie zapisane</Alert>
+      ) : null}
     </>
   );
 };
