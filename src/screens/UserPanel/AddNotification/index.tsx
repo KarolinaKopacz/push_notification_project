@@ -3,6 +3,7 @@ import { identity } from "remeda";
 
 import { useAppSelector } from "../../../hooks/useAppSelector";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
+import { Button } from "react-bootstrap";
 
 import { AddNotificationModal } from "../../../modals/addNotification";
 import { saveNewNotification } from "../../../redux/Notification/action";
@@ -11,6 +12,7 @@ export const AddNotificationView = () => {
   const [notName, setNotName] = useState("");
   const [customDate, setCustomDate] = useState("");
   const [customTime, setCustomTime] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   const dispatch = useAppDispatch();
 
@@ -28,11 +30,18 @@ export const AddNotificationView = () => {
 
   return (
     <>
+      <Button
+        variant="outline-success"
+        size="lg"
+        onClick={() => setShowModal(true)}
+      >
+        Dodaj przypomnienie
+      </Button>
       <AddNotificationModal
-        show={true}
+        show={showModal}
         title="Przypomnienie"
         notificationName="Nazwa przypomnienia"
-        timing="Ustaw czas przypomnienia"
+        dateAndTimeSectionName="Ustaw czas przypomnienia"
         saveButtonName="Zapisz"
         notificationNameValue={notName}
         onChangeNotificationName={(ev: any) => setNotName(ev.target.value)}
