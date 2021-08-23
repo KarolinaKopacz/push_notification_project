@@ -25,6 +25,7 @@ export type AppState = {
 const persistConfig = {
   key: "root",
   storage,
+  blacklist: ["notification"],
 };
 
 const persistedReducer = persistReducer(

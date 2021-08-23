@@ -20,9 +20,14 @@ export const AddNotificationView = () => {
   const saveStatus = useAppSelector((state) => state.notification.saveStatus);
 
   useEffect(() => {
-    console.log("reset");
-    resetStatus();
-  }, []);
+    if (saveStatus === "succeeded") {
+      const timeout = setTimeout(() => {
+        dispatch(resetStatus());
+      }, 3000);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [saveStatus]);
 
   const handleSavePress = () => {
     dispatch(
@@ -33,7 +38,6 @@ export const AddNotificationView = () => {
       })
     );
     setShowModal(false);
-    resetStatus();
   };
 
   return (
@@ -61,7 +65,13 @@ export const AddNotificationView = () => {
       />
 
       {saveStatus === "succeeded" ? (
-        <Alert variant="success">Przypomnienie zapisane!</Alert>
+        <Alert
+          variant="success"
+          dismissible={true}
+          onClose={() => dispatch(resetStatus())}
+        >
+          Przypomnienie zapisane!
+        </Alert>
       ) : null}
       {saveStatus === "loading" ? (
         <Alert variant="warning">Zapisywanie...</Alert>
