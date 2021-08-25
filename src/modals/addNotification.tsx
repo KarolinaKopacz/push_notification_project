@@ -1,4 +1,4 @@
-import { Button, Modal } from "react-bootstrap";
+import { Alert, Button, Modal } from "react-bootstrap";
 
 export const AddNotificationModal = (props: any) => {
   const {
@@ -15,6 +15,7 @@ export const AddNotificationModal = (props: any) => {
     defaultValue,
     defaultDateValue,
     defaultTimeValue,
+    showAlert,
   } = props;
 
   return (
@@ -29,6 +30,12 @@ export const AddNotificationModal = (props: any) => {
       </Modal.Header>
       <Modal.Body>
         <div className="small-component">
+          {showAlert === true ? (
+            <Alert variant="danger">
+              <Alert.Heading></Alert.Heading>
+              Wszystkie pola muszą być uzupełnione
+            </Alert>
+          ) : null}
           <p>{notificationName}</p>
           <input
             type="text"

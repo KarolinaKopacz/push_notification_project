@@ -14,6 +14,7 @@ export const AddNotificationView = () => {
   const [customDate, setCustomDate] = useState("");
   const [customTime, setCustomTime] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
 
   const dispatch = useAppDispatch();
 
@@ -30,6 +31,11 @@ export const AddNotificationView = () => {
   }, [saveStatus]);
 
   const handleSavePress = () => {
+    if (notName === "" || customDate === "" || customTime === "") {
+      setShowAlert(true);
+      setNotName("");
+      return null;
+    }
     dispatch(
       saveNewNotification({
         description: notName,
@@ -38,10 +44,13 @@ export const AddNotificationView = () => {
       })
     );
     setShowModal(false);
+    setNotName("");
   };
 
   const handleClosePress = () => {
     setShowModal(false);
+    setShowAlert(false);
+    setNotName("");
   };
   return (
     <>
@@ -66,6 +75,7 @@ export const AddNotificationView = () => {
         onChangeDate={(ev: any) => setCustomDate(ev.target.value)}
         timeValue={customTime}
         onChangeTime={(ev: any) => setCustomTime(ev.target.value)}
+        showAlert={showAlert}
       />
 
       {saveStatus === "succeeded" ? (
