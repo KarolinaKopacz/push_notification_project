@@ -40,6 +40,9 @@ export const AddNotificationView = () => {
     setShowModal(false);
   };
 
+  const handleClosePress = () => {
+    setShowModal(false);
+  };
   return (
     <>
       <Button
@@ -57,7 +60,8 @@ export const AddNotificationView = () => {
         saveButtonName="Zapisz"
         notificationNameValue={notName}
         onChangeNotificationName={(ev: any) => setNotName(ev.target.value)}
-        onPress={handleSavePress}
+        onSavePress={handleSavePress}
+        onClosePress={handleClosePress}
         dateValue={customDate}
         onChangeDate={(ev: any) => setCustomDate(ev.target.value)}
         timeValue={customTime}

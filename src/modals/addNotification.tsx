@@ -8,7 +8,8 @@ export const AddNotificationModal = (props: any) => {
     dateAndTimeSectionName,
     notificationNameValue,
     onChangeNotificationName,
-    onPress,
+    onSavePress,
+    onClosePress,
     onChangeDate,
     onChangeTime,
     defaultValue,
@@ -51,7 +52,10 @@ export const AddNotificationModal = (props: any) => {
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={onPress}>Zapisz</Button>
+        <Button onClick={onSavePress}>Zapisz</Button>
+        <Button variant="outline-danger" onClick={onClosePress}>
+          Zamknij
+        </Button>
       </Modal.Footer>
     </Modal>
   );
