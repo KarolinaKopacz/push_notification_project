@@ -14,8 +14,10 @@ import {
 } from "../../../redux/Notification/action";
 import { resetStatus } from "../../../redux/Notification/reducer";
 import { AlertModal } from "../../../modals/alerts";
-import { AddNotificationModal } from "../../../modals/addNotification";
+import { ModalForEditNotification } from "../../../modals/editNotification";
 import { useState } from "react";
+import { ConfirmDeleteModal } from "../../../modals/confirmDelete";
+import { NotificationList } from "../../../redux/Notification/types";
 
 export const ListOfNotifications = () => {
   const getListStatus = useAppSelector(
@@ -25,13 +27,15 @@ export const ListOfNotifications = () => {
   const userId = useAppSelector((state) => state.user.user?._id);
 
   const listOf = useAppSelector((state) => state.notification.notificationList);
+  const notificationEditStatus = useAppSelector(
+    (state) => state.notification.EditStatus
+  );
 
   const dispatch = useAppDispatch();
 
-  const [modalShow, setModalShow] = useState(false);
-  const [notName, setNotName] = useState("");
-  const [customDate, setCustomDate] = useState("");
-  const [customTime, setCustomTime] = useState("");
+  const [notificationForEdit, setNotificationForEdit] =
+    useState<NotificationList>();
+  const [modalForDelete, setShowModalForDelete] = useState<NotificationList>();
 
   useEffect(() => {
     if (!userId) {
@@ -41,6 +45,12 @@ export const ListOfNotifications = () => {
     dispatch(getNotificationsList({ userId }));
   }, [userId]);
 
+  useEffect(() => {
+    if (notificationEditStatus === "succeeded") {
+      setNotificationForEdit(undefined);
+    }
+  }, [notificationEditStatus]);
+
   const handleCloseAlertModal = () => {
     dispatch(resetStatus());
   };
@@ -49,14 +59,15 @@ export const ListOfNotifications = () => {
     dispatch(deleteNotification({ id }));
   };
 
-  const handleEditPress = (
-    id: string,
-    description: string,
-    date: string,
-    time: string
-  ) => {
-    dispatch(editNotification({ id, description, date, time }));
-    setModalShow(false);
+  const handleEditPress = (editedNotification: NotificationList) => {
+    dispatch(
+      editNotification({
+        id: editedNotification._id,
+        description: editedNotification.description,
+        date: editedNotification.date,
+        time: editedNotification.time,
+      })
+    );
   };
 
   return (
@@ -82,34 +93,18 @@ export const ListOfNotifications = () => {
                     <td>{item.date}</td>
                     <td>{item.time}</td>
                     <td>
-                      <a onClick={() => setModalShow(true)}>
+                      <a onClick={() => setNotificationForEdit(item)}>
                         <FontAwesomeIcon key={item._id} icon={faEdit} />
                       </a>
-                      <FontAwesomeIcon
-                        icon={faTrashAlt}
+                      <a
                         onClick={() => {
-                          handleDeletePress(item._id);
+                          setShowModalForDelete(item);
                         }}
-                      />
+                      >
+                        <FontAwesomeIcon icon={faTrashAlt} />
+                      </a>
                     </td>
                   </tr>
-                  <AddNotificationModal
-                    show={modalShow}
-                    title="Edytuj przypomnienie"
-                    notificationName="Nazwa przypomnienia"
-                    defaultValue={item.description}
-                    onChangeNotificationName={(ev: any) =>
-                      setNotName(ev.target.value)
-                    }
-                    dateAndTimeSectionName="Ustaw czas i datę"
-                    defaultDateValue={item.date}
-                    onChangeDate={(ev: any) => setCustomDate(ev.target.value)}
-                    defaultTimeValue={item.time}
-                    onChangeTime={(ev: any) => setCustomTime(ev.target.value)}
-                    onPress={() =>
-                      handleEditPress(item._id, notName, customDate, customTime)
-                    }
-                  />
                 </tbody>
               );
             })
@@ -121,7 +116,24 @@ export const ListOfNotifications = () => {
             onPress={handleCloseAlertModal}
           />
         ) : null}
+        <ModalForEditNotification
+          isLoading={notificationEditStatus === "loading"}
+          title="Edytuj przypomnienie"
+          notificationName="Nazwa przypomnienia"
+          dateAndTimeSectionName="Ustaw czas i datę"
+          notification={notificationForEdit}
+          onSavePress={handleEditPress}
+          onClosePress={() => setNotificationForEdit(undefined)}
+        />
       </Table>
+      {/* <ConfirmDeleteModal
+        showDeleteConfirm={modalForDelete}
+        message="Czy na pewno chcesz usunąć powiadomienie?"
+        onYesPress={handleDeletePress()}
+        onClosePress={() => {}}
+      >
+        {console.log("delete")}
+      </ConfirmDeleteModal> */}
     </>
   );
 };

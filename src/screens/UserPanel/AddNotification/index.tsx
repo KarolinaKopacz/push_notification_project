@@ -1,98 +1,58 @@
+import { useEffect } from "react";
 import { useState } from "react";
 
 import { useAppSelector } from "../../../hooks/useAppSelector";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 import { Alert, Button } from "react-bootstrap";
 
-import { AddNotificationModal } from "../../../modals/addNotification";
+import { AddedNewNotificationType } from "../../../redux/Notification/types";
+import { ModalForAddNotification } from "../../../modals/addNotification";
 import { saveNewNotification } from "../../../redux/Notification/action";
-import { resetStatus } from "../../../redux/Notification/reducer";
-import { useEffect } from "react";
 
 export const AddNotificationView = () => {
-  const [notName, setNotName] = useState("");
-  const [customDate, setCustomDate] = useState("");
-  const [customTime, setCustomTime] = useState("");
-  const [showModal, setShowModal] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
-
   const dispatch = useAppDispatch();
 
   const saveStatus = useAppSelector((state) => state.notification.saveStatus);
 
+  const [newNotification, setNewNotification] =
+    useState<AddedNewNotificationType>();
+  const [modalForAddNew, setShowModalForAddNew] = useState(false);
+
   useEffect(() => {
     if (saveStatus === "succeeded") {
-      const timeout = setTimeout(() => {
-        dispatch(resetStatus());
-      }, 3000);
-
-      return () => clearTimeout(timeout);
+      setNewNotification(undefined);
     }
   }, [saveStatus]);
 
-  const handleSavePress = () => {
-    if (notName === "" || customDate === "" || customTime === "") {
-      setShowAlert(true);
-      setNotName("");
-      return null;
-    }
+  const handleSavePress = (newNotification: AddedNewNotificationType) => {
     dispatch(
       saveNewNotification({
-        description: notName,
-        date: customDate,
-        time: customTime,
+        description: newNotification.description,
+        date: newNotification.date,
+        time: newNotification.time,
       })
     );
-    setShowModal(false);
-    setNotName("");
+    setShowModalForAddNew(false);
   };
 
-  const handleClosePress = () => {
-    setShowModal(false);
-    setShowAlert(false);
-    setNotName("");
-  };
   return (
     <>
       <Button
         variant="outline-success"
         size="lg"
-        onClick={() => setShowModal(true)}
+        onClick={() => setShowModalForAddNew(true)}
       >
         Dodaj przypomnienie
       </Button>
-      <AddNotificationModal
-        show={showModal}
+      <ModalForAddNotification
+        show={modalForAddNew}
         title="Przypomnienie"
         notificationName="Nazwa przypomnienia"
         dateAndTimeSectionName="Ustaw czas przypomnienia"
-        saveButtonName="Zapisz"
-        notificationNameValue={notName}
-        onChangeNotificationName={(ev: any) => setNotName(ev.target.value)}
         onSavePress={handleSavePress}
-        onClosePress={handleClosePress}
-        dateValue={customDate}
-        onChangeDate={(ev: any) => setCustomDate(ev.target.value)}
-        timeValue={customTime}
-        onChangeTime={(ev: any) => setCustomTime(ev.target.value)}
-        showAlert={showAlert}
+        onClosePress={() => setShowModalForAddNew(false)}
+        isLoading={saveStatus === "loading"}
       />
-
-      {saveStatus === "succeeded" ? (
-        <Alert
-          variant="success"
-          dismissible={true}
-          onClose={() => dispatch(resetStatus())}
-        >
-          Przypomnienie zapisane!
-        </Alert>
-      ) : null}
-      {saveStatus === "loading" ? (
-        <Alert variant="warning">Zapisywanie...</Alert>
-      ) : null}
-      {saveStatus === "failed" ? (
-        <Alert variant="danger">Przypomnienie nie zapisane</Alert>
-      ) : null}
     </>
   );
 };

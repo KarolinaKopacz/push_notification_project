@@ -1,22 +1,52 @@
-import { Alert, Button, Modal } from "react-bootstrap";
+import { useState } from "react";
 
-export const AddNotificationModal = (props: any) => {
+import { Alert, Button, Modal, Spinner } from "react-bootstrap";
+
+import { AddedNewNotificationType } from "../redux/Notification/types";
+
+interface Props {
+  title: string;
+  notificationName: string;
+  dateAndTimeSectionName: string;
+  onSavePress: (newNotification: AddedNewNotificationType) => void;
+  onClosePress: () => void;
+  isLoading: boolean;
+  show: boolean;
+}
+
+export const ModalForAddNotification = (props: Props) => {
   const {
-    show,
     title,
-    notificationName,
-    dateAndTimeSectionName,
-    notificationNameValue,
-    onChangeNotificationName,
     onSavePress,
     onClosePress,
-    onChangeDate,
-    onChangeTime,
-    defaultValue,
-    defaultDateValue,
-    defaultTimeValue,
-    showAlert,
+    notificationName,
+    dateAndTimeSectionName,
+    isLoading,
+    show,
   } = props;
+
+  const [description, setDescription] = useState<string>();
+  const [date, setDate] = useState<string>();
+  const [time, setTime] = useState<string>();
+  const [isErrorVisible, setErrorVisible] = useState(false);
+
+  const handleSavePress = () => {
+    if (!description || !date || !time) {
+      setErrorVisible(true);
+      return;
+    }
+
+    onSavePress({
+      description: description,
+      date: date,
+      time: time,
+    });
+  };
+
+  const handleClosePress = () => {
+    setErrorVisible(false);
+    onClosePress();
+  };
 
   return (
     <Modal
@@ -28,9 +58,10 @@ export const AddNotificationModal = (props: any) => {
       <Modal.Header>
         <Modal.Title id="contained-modal-title-vcenter">{title}</Modal.Title>
       </Modal.Header>
+
       <Modal.Body>
         <div className="small-component">
-          {showAlert === true ? (
+          {isErrorVisible ? (
             <Alert variant="danger">
               <Alert.Heading></Alert.Heading>
               Wszystkie pola muszą być uzupełnione
@@ -39,30 +70,36 @@ export const AddNotificationModal = (props: any) => {
           <p>{notificationName}</p>
           <input
             type="text"
-            defaultValue={defaultValue}
-            value={notificationNameValue}
-            onChange={onChangeNotificationName}
+            value={description}
+            onChange={(ev) => setDescription(ev.target.value)}
           ></input>
         </div>
         <div className="small-component pwd-container">
           <p>{dateAndTimeSectionName}</p>
           <input
             type="date"
-            defaultValue={defaultDateValue}
-            onChange={onChangeDate}
+            value={date}
+            onChange={(ev) => setDate(ev.target.value)}
           />
           <input
             type="time"
-            defaultValue={defaultTimeValue}
-            onChange={onChangeTime}
+            value={time}
+            onChange={(ev) => setTime(ev.target.value)}
           />
         </div>
       </Modal.Body>
+
       <Modal.Footer>
-        <Button onClick={onSavePress}>Zapisz</Button>
-        <Button variant="outline-danger" onClick={onClosePress}>
-          Zamknij
-        </Button>
+        {isLoading ? (
+          <Spinner animation="border" role="status" />
+        ) : (
+          <>
+            <Button onClick={() => handleSavePress()}>Zapisz</Button>
+            <Button variant="outline-danger" onClick={() => handleClosePress()}>
+              Zamknij
+            </Button>
+          </>
+        )}
       </Modal.Footer>
     </Modal>
   );
