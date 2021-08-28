@@ -58,10 +58,9 @@ const getNotificationsList = createAsyncThunk(
   }
 );
 
-const deleteNotification = createAsyncThunk(
+const deleteOneNotification = createAsyncThunk(
   "notification/DELETE_NOTIFICATION",
-  async ({ id }: { id: string }) => {
-    console.log("id", id);
+  async ({ id }: { id: string | undefined }) => {
     return await fetch(
       `https://notificationbase-52e5.restdb.io/rest/notification/${id}`,
       {
@@ -127,6 +126,6 @@ const editNotification = createAsyncThunk(
 export {
   saveNewNotification,
   getNotificationsList,
-  deleteNotification,
+  deleteOneNotification,
   editNotification,
 };

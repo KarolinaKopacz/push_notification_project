@@ -3,17 +3,21 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   saveNewNotification,
   getNotificationsList,
-  deleteNotification,
+  deleteOneNotification,
   editNotification,
 } from "./action";
-import { NotificationType, NotificationList } from "./types";
+import {
+  NotificationType,
+  NotificationList,
+  DeleteNotificationType,
+} from "./types";
 
 type FetchStatus = "loading" | "succeeded" | "failed" | "idle";
 
 export type State = {
   notification: NotificationType | null;
   notificationList: NotificationList[];
-  EditStatus: FetchStatus;
+  editStatus: FetchStatus;
   saveStatus: FetchStatus;
   deleteStatus: FetchStatus;
   getListStatus: FetchStatus;
@@ -22,7 +26,7 @@ export type State = {
 const InitialState: State = {
   notification: null,
   notificationList: [],
-  EditStatus: "idle",
+  editStatus: "idle",
   saveStatus: "idle",
   deleteStatus: "idle",
   getListStatus: "idle",
@@ -67,35 +71,34 @@ export const notificationSlice = createSlice({
     });
 
     // delete notification
-    builder.addCase(deleteNotification.pending, (state, action) => {
+    builder.addCase(deleteOneNotification.pending, (state, action) => {
       state.deleteStatus = "loading";
     });
-    builder.addCase(deleteNotification.fulfilled, (state, action) => {
-      console.log("action", action);
+    builder.addCase(deleteOneNotification.fulfilled, (state, action) => {
       if ("id" in action.payload && action.payload.id) {
-        state.notificationList.filter(
+        state.notificationList = state.notificationList.filter(
           // @ts-ignore
           (notification) => notification._id !== action.payload.id
         );
       }
+
       state.deleteStatus = "succeeded";
     });
-    builder.addCase(deleteNotification.rejected, (state, action) => {
+    builder.addCase(deleteOneNotification.rejected, (state, action) => {
       state.deleteStatus = "failed";
     });
 
     // edit
     builder.addCase(editNotification.pending, (state, action) => {
-      state.EditStatus = "loading";
+      state.editStatus = "loading";
     });
     builder.addCase(editNotification.fulfilled, (state, action) => {
-      console.log("action edit", action);
       state.notificationList = action.payload.modifiedNotificationList;
-      state.EditStatus = "succeeded";
+      state.editStatus = "succeeded";
     });
     builder.addCase(editNotification.rejected, (state, action) => {
       console.log("Error!", action);
-      state.EditStatus = "failed";
+      state.editStatus = "failed";
     });
   },
 });

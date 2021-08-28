@@ -8,7 +8,7 @@ import { useAppSelector } from "../../../hooks/useAppSelector";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 
 import {
-  deleteNotification,
+  deleteOneNotification,
   editNotification,
   getNotificationsList,
 } from "../../../redux/Notification/action";
@@ -17,7 +17,10 @@ import { AlertModal } from "../../../modals/alerts";
 import { ModalForEditNotification } from "../../../modals/editNotification";
 import { useState } from "react";
 import { ConfirmDeleteModal } from "../../../modals/confirmDelete";
-import { NotificationList } from "../../../redux/Notification/types";
+import {
+  NotificationList,
+  DeleteNotificationType,
+} from "../../../redux/Notification/types";
 
 export const ListOfNotifications = () => {
   const getListStatus = useAppSelector(
@@ -28,20 +31,23 @@ export const ListOfNotifications = () => {
 
   const listOf = useAppSelector((state) => state.notification.notificationList);
   const notificationEditStatus = useAppSelector(
-    (state) => state.notification.EditStatus
+    (state) => state.notification.editStatus
+  );
+  const notificationDeleteStatus = useAppSelector(
+    (state) => state.notification.deleteStatus
   );
 
   const dispatch = useAppDispatch();
 
   const [notificationForEdit, setNotificationForEdit] =
     useState<NotificationList>();
-  const [modalForDelete, setShowModalForDelete] = useState<NotificationList>();
+  const [notificationForDelete, setNotificationForDelete] =
+    useState<DeleteNotificationType>();
 
   useEffect(() => {
     if (!userId) {
       return;
     }
-
     dispatch(getNotificationsList({ userId }));
   }, [userId]);
 
@@ -51,12 +57,18 @@ export const ListOfNotifications = () => {
     }
   }, [notificationEditStatus]);
 
+  useEffect(() => {
+    if (notificationDeleteStatus === "succeeded") {
+      setNotificationForDelete(undefined);
+    }
+  }, [notificationDeleteStatus]);
+
   const handleCloseAlertModal = () => {
     dispatch(resetStatus());
   };
 
-  const handleDeletePress = (id: string) => {
-    dispatch(deleteNotification({ id }));
+  const handleDeletePress = (deleteNotification: DeleteNotificationType) => {
+    dispatch(deleteOneNotification({ id: deleteNotification._id }));
   };
 
   const handleEditPress = (editedNotification: NotificationList) => {
@@ -98,7 +110,7 @@ export const ListOfNotifications = () => {
                       </a>
                       <a
                         onClick={() => {
-                          setShowModalForDelete(item);
+                          setNotificationForDelete(item);
                         }}
                       >
                         <FontAwesomeIcon icon={faTrashAlt} />
@@ -126,14 +138,13 @@ export const ListOfNotifications = () => {
           onClosePress={() => setNotificationForEdit(undefined)}
         />
       </Table>
-      {/* <ConfirmDeleteModal
-        showDeleteConfirm={modalForDelete}
+      <ConfirmDeleteModal
+        onConfirmPress={handleDeletePress}
+        onClosePress={() => setNotificationForDelete(undefined)}
         message="Czy na pewno chcesz usunąć powiadomienie?"
-        onYesPress={handleDeletePress()}
-        onClosePress={() => {}}
-      >
-        {console.log("delete")}
-      </ConfirmDeleteModal> */}
+        notification={notificationForDelete}
+        isLoading={notificationDeleteStatus === "loading"}
+      />
     </>
   );
 };
