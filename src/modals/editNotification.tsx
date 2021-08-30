@@ -1,12 +1,8 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import {
-  Alert,
-  Button,
-  Modal,
-  Spinner,
-  useAccordionButton,
-} from "react-bootstrap";
+
+import { Alert, Button, Modal, Spinner } from "react-bootstrap";
+
 import { NotificationList } from "../redux/Notification/types";
 
 interface Props {

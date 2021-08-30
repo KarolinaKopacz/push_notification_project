@@ -3,11 +3,6 @@ export type NewRegisterType = {
   newPasswordEncrypted: string;
 };
 
-export type NewUserData = {
-  login: string;
-  password: string;
-};
-
 export type UserType = {
   _id: string;
   newLogin: string;

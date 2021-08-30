@@ -98,7 +98,6 @@ export const notificationSlice = createSlice({
       state.editStatus = "succeeded";
     });
     builder.addCase(editNotification.rejected, (state, action) => {
-      console.log("Error!", action);
       state.editStatus = "failed";
     });
   },

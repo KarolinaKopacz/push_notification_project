@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { AppState } from "../store";
 
-import { NotificationList, NotificationProperty } from "./types";
+import { NotificationProperty } from "./types";
+import { AppState } from "../store";
 
 const fetchURL = "https://notificationbase-52e5.restdb.io/rest/notification";
 const urlPass = "61056fb569fac573b50a505b";

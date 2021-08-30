@@ -1,9 +1,10 @@
 import { useEffect } from "react";
 import { useState } from "react";
 
+import { Button } from "react-bootstrap";
+
 import { useAppSelector } from "../../../hooks/useAppSelector";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
-import { Alert, Button } from "react-bootstrap";
 
 import { AddedNewNotificationType } from "../../../redux/Notification/types";
 import { ModalForAddNotification } from "../../../modals/addNotification";
@@ -13,7 +14,6 @@ export const AddNotificationView = () => {
   const dispatch = useAppDispatch();
 
   const userId = useAppSelector((state) => state.user.user?._id);
-  console.log("user id", userId);
   const saveStatus = useAppSelector((state) => state.notification.saveStatus);
 
   const [newNotification, setNewNotification] =

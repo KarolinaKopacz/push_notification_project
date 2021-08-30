@@ -1,11 +1,7 @@
-import { useState } from "react";
-import showPwdImg from "../img/log-register/show-password.svg";
-import hidePwdImg from "../img/log-register/hide-password.svg";
 import { Container, Button, Col, Form, Row } from "react-bootstrap";
 
 export const LogInRegisterModal = (props: any) => {
   const {
-    titleOfModal,
     loginInputTitle,
     passwordInputTitle,
     buttonTitle,
@@ -15,8 +11,6 @@ export const LogInRegisterModal = (props: any) => {
     passwordFunc,
     buttonFunc,
   } = props;
-
-  const [isRevealPwd, setIsRevealPwd] = useState(false);
 
   return (
     <>

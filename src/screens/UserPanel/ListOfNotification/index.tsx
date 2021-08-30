@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useState } from "react";
 
 import { faTrashAlt, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,16 +8,15 @@ import { Table, Spinner } from "react-bootstrap";
 import { useAppSelector } from "../../../hooks/useAppSelector";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 
+import { ModalForEditNotification } from "../../../modals/editNotification";
+import { ConfirmDeleteModal } from "../../../modals/confirmDelete";
+import { resetStatus } from "../../../redux/Notification/reducer";
+import { AlertModal } from "../../../modals/alerts";
 import {
   deleteOneNotification,
   editNotification,
   getNotificationsList,
 } from "../../../redux/Notification/action";
-import { resetStatus } from "../../../redux/Notification/reducer";
-import { AlertModal } from "../../../modals/alerts";
-import { ModalForEditNotification } from "../../../modals/editNotification";
-import { useState } from "react";
-import { ConfirmDeleteModal } from "../../../modals/confirmDelete";
 import {
   NotificationList,
   DeleteNotificationType,

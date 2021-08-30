@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-
 import { omit } from "remeda";
+
 import { crypt } from "../../components/encryptionFunc";
 import { UserType } from "./types";
 
@@ -18,8 +18,6 @@ const checkUserExists = createAsyncThunk(
         "x-apikey": urlPass,
       },
     }).then(async (response) => {
-      // if (response.ok) {
-
       const allUsers = (await response.json()) as {
         login: string;
         password: string;

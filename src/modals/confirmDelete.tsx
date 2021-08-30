@@ -1,6 +1,5 @@
-import { useState } from "react";
-
 import { Button, Modal, Spinner } from "react-bootstrap";
+
 import { DeleteNotificationType } from "../redux/Notification/types";
 
 interface Props {

@@ -1,12 +1,13 @@
-import React from "react";
-import "./style.css";
 import "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Col, Row, Container } from "react-bootstrap";
+
+import "./style.css";
+
 import { useAppSelector } from "./hooks/useAppSelector";
 
-import { Auth } from "./screens/Auth";
 import { Home } from "./screens/UserPanel/home";
-import { Col, Row, Container } from "react-bootstrap";
+import { Auth } from "./screens/Auth";
 
 function App() {
   const userIsLogged = useAppSelector((state) => state.user.user);

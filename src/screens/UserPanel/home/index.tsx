@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { Button, Nav } from "react-bootstrap";
-import { MenuList } from "../../../modals/menuList";
-import { AddNotificationView } from "../AddNotification";
+
+import { Button } from "react-bootstrap";
+
 import { ListOfNotifications } from "../ListOfNotification";
+import { AddNotificationView } from "../AddNotification";
+import { MenuList } from "../../../modals/menuList";
 
 export const Home = (props: any) => {
   const { userName } = props;

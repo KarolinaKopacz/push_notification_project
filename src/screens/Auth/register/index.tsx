@@ -3,10 +3,10 @@ import { useState } from "react";
 import { useAppSelector } from "../../../hooks/useAppSelector";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 
-import { LogInRegisterModal } from "../../../modals/registerLogin";
-import { AlertModal } from "../../../modals/alerts";
 import { checkUserExists, registerNewUser } from "../../../redux/User/action";
+import { LogInRegisterModal } from "../../../modals/registerLogin";
 import { resetStatus } from "../../../redux/User/reducer";
+import { AlertModal } from "../../../modals/alerts";
 
 export const Register = () => {
   const [newPassword, setNewPassword] = useState("");
@@ -16,9 +16,6 @@ export const Register = () => {
     (state) => state.user.checkUserExistsStatus
   );
 
-  const registerNewUserStatus = useAppSelector(
-    (state) => state.user.registerNewUserStatus
-  );
   const dispatch = useAppDispatch();
 
   const handleRegisterPress = async () => {

@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 import { checkUserExists, logIn, registerNewUser } from "./action";
 import { NewRegisterType, LoggedInUserType } from "./types";
 

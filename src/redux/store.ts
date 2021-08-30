@@ -1,10 +1,10 @@
-import { createStore } from "redux";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import storage from "redux-persist/lib/storage";
 
 import userSlice, { State as UserState } from "./User/reducer";
 import notificationSlice, {
   State as NotificationState,
 } from "./Notification/reducer";
-
 import {
   persistStore,
   persistReducer,
@@ -15,8 +15,6 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
-import storage from "redux-persist/lib/storage";
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
 export type AppState = {
   user: UserState;
