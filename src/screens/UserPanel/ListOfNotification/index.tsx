@@ -111,9 +111,10 @@ export const ListOfNotifications = () => {
                       <a
                         onClick={() => {
                           setNotificationForDelete(item);
+                          console.log("2 id", item);
                         }}
                       >
-                        <FontAwesomeIcon icon={faTrashAlt} />
+                        <FontAwesomeIcon key={item._id} icon={faTrashAlt} />
                       </a>
                     </td>
                   </tr>

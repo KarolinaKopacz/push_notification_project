@@ -48,9 +48,9 @@ export const notificationSlice = createSlice({
       state.saveStatus = "loading";
     });
     builder.addCase(saveNewNotification.fulfilled, (state, action) => {
-      if ("newNotification" in action.payload) {
+      if ("createdNotification" in action.payload) {
         state.notificationList.push(
-          action.payload.newNotification as NotificationProperty
+          action.payload.createdNotification as NotificationProperty
         );
       }
       state.saveStatus = "succeeded";

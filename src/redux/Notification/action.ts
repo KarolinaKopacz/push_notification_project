@@ -31,9 +31,10 @@ const saveNewNotification = createAsyncThunk(
       },
 
       body: JSON.stringify(newNotification),
-    }).then((response) => {
+    }).then(async (response) => {
       if (response.ok) {
-        return { newNotification };
+        const createdNotification = await response.json();
+        return { createdNotification: createdNotification };
       }
       throw new Error(response.statusText);
     });
@@ -66,6 +67,7 @@ const getNotificationsList = createAsyncThunk(
 const deleteOneNotification = createAsyncThunk(
   "notification/DELETE_NOTIFICATION",
   async ({ id }: { id: string | undefined }) => {
+    console.log("1 id", id);
     return await fetch(
       `https://notificationbase-52e5.restdb.io/rest/notification/${id}`,
       {
