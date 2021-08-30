@@ -3,6 +3,13 @@ export type NotificationType = {
   description: string;
   date: string;
 };
+export type NotificationProperty = {
+  userId: string;
+  _id: string;
+  description: string;
+  date: string;
+  time: string;
+};
 
 export type NotificationList = {
   _id: string;

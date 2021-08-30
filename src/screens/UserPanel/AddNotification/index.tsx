@@ -12,6 +12,8 @@ import { saveNewNotification } from "../../../redux/Notification/action";
 export const AddNotificationView = () => {
   const dispatch = useAppDispatch();
 
+  const userId = useAppSelector((state) => state.user.user?._id);
+  console.log("user id", userId);
   const saveStatus = useAppSelector((state) => state.notification.saveStatus);
 
   const [newNotification, setNewNotification] =
@@ -27,6 +29,7 @@ export const AddNotificationView = () => {
   const handleSavePress = (newNotification: AddedNewNotificationType) => {
     dispatch(
       saveNewNotification({
+        userId: userId,
         description: newNotification.description,
         date: newNotification.date,
         time: newNotification.time,

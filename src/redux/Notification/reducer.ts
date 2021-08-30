@@ -10,6 +10,7 @@ import {
   NotificationType,
   NotificationList,
   DeleteNotificationType,
+  NotificationProperty,
 } from "./types";
 
 type FetchStatus = "loading" | "succeeded" | "failed" | "idle";
@@ -49,7 +50,7 @@ export const notificationSlice = createSlice({
     builder.addCase(saveNewNotification.fulfilled, (state, action) => {
       if ("newNotification" in action.payload) {
         state.notificationList.push(
-          action.payload.newNotification as NotificationList
+          action.payload.newNotification as NotificationProperty
         );
       }
       state.saveStatus = "succeeded";

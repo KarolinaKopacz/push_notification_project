@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AppState } from "../store";
 
-import { NotificationList } from "./types";
+import { NotificationList, NotificationProperty } from "./types";
 
 const fetchURL = "https://notificationbase-52e5.restdb.io/rest/notification";
 const urlPass = "61056fb569fac573b50a505b";
@@ -9,17 +9,19 @@ const urlPass = "61056fb569fac573b50a505b";
 const saveNewNotification = createAsyncThunk(
   "notification/SAVE_NEW_NOTIFICATION",
   async ({
+    userId,
     description,
     date,
     time,
   }: {
+    userId: string | undefined;
     description: string;
     date: string;
     time: string;
   }) => {
     // I know I  should put it in the backend, but this is just a playground
 
-    const newNotification = { description, date, time };
+    const newNotification = { userId, description, date, time };
 
     return await fetch(fetchURL, {
       method: "post",
@@ -49,9 +51,12 @@ const getNotificationsList = createAsyncThunk(
       },
     }).then(async (response) => {
       if (response.ok) {
-        const allNotifications = (await response.json()) as NotificationList[];
+        const allNotifications =
+          (await response.json()) as NotificationProperty[];
 
-        return allNotifications; //.filter(notification => notification.userId === userId);
+        return allNotifications.filter(
+          (notification) => notification.userId === userId
+        );
       }
       throw new Error(response.statusText);
     });
