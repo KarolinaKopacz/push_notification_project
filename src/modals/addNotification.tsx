@@ -41,6 +41,10 @@ export const ModalForAddNotification = (props: Props) => {
       date: date,
       time: time,
     });
+
+    setDescription("");
+    setDate("");
+    setTime("");
   };
 
   const handleClosePress = () => {
