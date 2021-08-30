@@ -77,33 +77,30 @@ export const ModalForEditNotification = (props: Props) => {
       </Modal.Header>
       {notification ? (
         <Modal.Body>
-          <div className="small-component">
-            {isErrorVisible ? (
-              <Alert variant="danger">
-                <Alert.Heading></Alert.Heading>
-                Wszystkie pola muszą być uzupełnione
-              </Alert>
-            ) : null}
-            <p>{notificationName}</p>
-            <input
-              type="text"
-              value={description}
-              onChange={(ev) => setDescription(ev.target.value)}
-            ></input>
-          </div>
-          <div className="small-component pwd-container">
-            <p>{dateAndTimeSectionName}</p>
-            <input
-              type="date"
-              value={date}
-              onChange={(ev) => setDate(ev.target.value)}
-            />
-            <input
-              type="time"
-              value={time}
-              onChange={(ev) => setTime(ev.target.value)}
-            />
-          </div>
+          {isErrorVisible ? (
+            <Alert variant="danger">
+              <Alert.Heading></Alert.Heading>
+              Wszystkie pola muszą być uzupełnione
+            </Alert>
+          ) : null}
+          <p>{notificationName}</p>
+          <input
+            type="text"
+            value={description}
+            onChange={(ev) => setDescription(ev.target.value)}
+          ></input>
+
+          <p>{dateAndTimeSectionName}</p>
+          <input
+            type="date"
+            value={date}
+            onChange={(ev) => setDate(ev.target.value)}
+          />
+          <input
+            type="time"
+            value={time}
+            onChange={(ev) => setTime(ev.target.value)}
+          />
         </Modal.Body>
       ) : null}
       <Modal.Footer>

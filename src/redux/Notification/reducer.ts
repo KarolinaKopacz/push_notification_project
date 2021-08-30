@@ -9,7 +9,6 @@ import {
 import {
   NotificationType,
   NotificationList,
-  DeleteNotificationType,
   NotificationProperty,
 } from "./types";
 
