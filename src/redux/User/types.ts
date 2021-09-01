@@ -4,7 +4,6 @@ export type NewRegisterType = {
 };
 
 export type UserType = {
-  _id: string;
   newLogin: string;
   newPasswordEncrypted: string;
 };

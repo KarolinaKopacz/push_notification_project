@@ -1,16 +1,34 @@
-import { Container, Button, Col, Form, Row } from "react-bootstrap";
+import { useState } from "react";
+import {
+  Container,
+  Button,
+  Col,
+  Form,
+  Row,
+  Alert,
+  Spinner,
+} from "react-bootstrap";
+import { UserType } from "../redux/User/types";
 
-export const LogInRegisterModal = (props: any) => {
-  const {
-    loginInputTitle,
-    passwordInputTitle,
-    buttonTitle,
-    loginValue,
-    loginFunc,
-    passwordValue,
-    passwordFunc,
-    buttonFunc,
-  } = props;
+interface Props {
+  onLoginPress: (customUser: UserType) => void;
+  isLoading: boolean;
+}
+
+export const LoginModal = (props: Props) => {
+  const { onLoginPress, isLoading } = props;
+
+  const [login, setlogin] = useState<string>("");
+  const [password, setpassword] = useState<string>("");
+  const [isErrorVisible, setErrorVisible] = useState(false);
+
+  const handleLogInPress = () => {
+    if (!login || !password) {
+      setErrorVisible(true);
+      return;
+    }
+    onLoginPress({ newLogin: login, newPasswordEncrypted: password });
+  };
 
   return (
     <>
@@ -19,28 +37,38 @@ export const LogInRegisterModal = (props: any) => {
           <Col sm={"auto"}>
             <Form>
               <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>{loginInputTitle}</Form.Label>
+                {isErrorVisible ? (
+                  <Alert variant="danger">
+                    <Alert.Heading></Alert.Heading>
+                    Wypełnij wszystkie pola
+                  </Alert>
+                ) : null}
+                <Form.Label>Login</Form.Label>
                 <Form.Control
-                  type="email"
+                  type="text"
                   placeholder="Enter login"
-                  value={loginValue}
-                  onChange={loginFunc}
+                  value={login}
+                  onChange={(ev) => setlogin(ev.target.value)}
                 ></Form.Control>
               </Form.Group>
             </Form>
             <Form>
               <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Label>{passwordInputTitle}</Form.Label>
+                <Form.Label>Hasło</Form.Label>
                 <Form.Control
                   type="password"
                   placeholder="Enter password"
-                  value={passwordValue}
-                  onChange={passwordFunc}
+                  value={password}
+                  onChange={(ev) => setpassword(ev.target.value)}
                 ></Form.Control>
               </Form.Group>
-              <Button variant="primary" onClick={buttonFunc}>
-                {buttonTitle}
-              </Button>
+              {isLoading ? (
+                <Spinner animation="border" role="status" />
+              ) : (
+                <Button variant="primary" onClick={handleLogInPress}>
+                  Zaloguj
+                </Button>
+              )}
             </Form>
           </Col>
         </Row>
