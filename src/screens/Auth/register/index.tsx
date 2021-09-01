@@ -1,29 +1,33 @@
-import { useState } from "react";
-
 import { useAppSelector } from "../../../hooks/useAppSelector";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 
 import { checkUserExists, registerNewUser } from "../../../redux/User/action";
-import { LogInRegisterModal } from "../../../modals/registerLogin";
+import { NewRegisterType } from "../../../redux/User/types";
 import { resetStatus } from "../../../redux/User/reducer";
+import { RegisterModal } from "../../../modals/register";
 import { AlertModal } from "../../../modals/alerts";
 
 export const Register = () => {
-  const [newPassword, setNewPassword] = useState("");
-  const [newLogin, setNewLogin] = useState("");
-
   const checkUserExistsStatus = useAppSelector(
     (state) => state.user.checkUserExistsStatus
+  );
+  const registerNewUserStatus = useAppSelector(
+    (state) => state.user.registerNewUserStatus
   );
 
   const dispatch = useAppDispatch();
 
-  const handleRegisterPress = async () => {
-    dispatch(checkUserExists({ newLogin }));
+  const handleRegisterPress = async (newUser: NewRegisterType) => {
+    dispatch(checkUserExists({ newLogin: newUser.newLogin }));
   };
 
-  const registerNewUserFunc = () => {
-    dispatch(registerNewUser({ newLogin, newPassword }));
+  const registerNewUserFunc = (newUser: NewRegisterType) => {
+    dispatch(
+      registerNewUser({
+        newLogin: newUser.newLogin,
+        newPassword: newUser.newPasswordEncrypted,
+      })
+    );
     dispatch(resetStatus());
   };
 
@@ -33,20 +37,15 @@ export const Register = () => {
 
   return (
     <>
-      <LogInRegisterModal
-        titleOfModal="Zarejestruj się"
-        loginInputTitle="Login"
-        passwordInputTitle="Hasło"
-        buttonTitle="Utwórz konto"
-        loginValue={newLogin}
-        loginFunc={(ev: any) => setNewLogin(ev.target.value)}
-        passwordValue={newPassword}
-        passwordFunc={(ev: any) => {
-          setNewPassword(ev.target.value);
-        }}
-        buttonFunc={handleRegisterPress}
+      <RegisterModal
+        onRegisterPress={handleRegisterPress}
+        status={checkUserExistsStatus}
+        registerNewUser={registerNewUserFunc}
+        isLoading={
+          registerNewUserStatus === "loading" ||
+          checkUserExistsStatus === "loading"
+        }
       />
-      {checkUserExistsStatus === "succeeded" ? registerNewUserFunc() : null}
       {checkUserExistsStatus === "failed" ? (
         <AlertModal
           onPress={handleCloseAlertModal}
