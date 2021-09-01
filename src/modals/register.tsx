@@ -1,4 +1,3 @@
-import { createSerializableStateInvariantMiddleware } from "@reduxjs/toolkit";
 import { useEffect } from "react";
 import { useState } from "react";
 import {
@@ -25,7 +24,6 @@ export const RegisterModal = (props: Props) => {
   const [newLogin, setNewLogin] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
   const [isErrorVisible, setErrorVisible] = useState(false);
-  const [isErrorSaveStatus, setErrorSaveStatusVisible] = useState(false);
 
   const handleRegisterPress = () => {
     if (!newLogin || !newPassword) {
