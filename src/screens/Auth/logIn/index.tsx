@@ -1,7 +1,7 @@
 import { useAppSelector } from "../../../hooks/useAppSelector";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 
-import { LoginModal } from "../../../modals/registerLogin";
+import { LoginModal } from "../../../modals/login";
 import { resetStatus } from "../../../redux/User/reducer";
 import { UserType } from "../../../redux/User/types";
 import { AlertModal } from "../../../modals/alerts";
