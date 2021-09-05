@@ -9,6 +9,7 @@ export type NotificationProperty = {
   description: string;
   date: string;
   time: string;
+  dateObj: Date;
 };
 
 export type NotificationList = {
@@ -16,6 +17,7 @@ export type NotificationList = {
   description: string;
   date: string;
   time: string;
+  dateObj: Date;
 };
 
 export type AddedNewNotificationType = {

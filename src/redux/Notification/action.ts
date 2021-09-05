@@ -6,6 +6,20 @@ import { AppState } from "../store";
 const fetchURL = "https://notificationbase-52e5.restdb.io/rest/notification";
 const urlPass = "61056fb569fac573b50a505b";
 
+interface Props {
+  date: string;
+  time: string;
+}
+const changeDateFormat = (props: Props) => {
+  const dateObj = new Date(props.date);
+  const hours = Number(props.time.substr(0, 2));
+  const minutes = Number(props.time.substr(3, 2));
+  dateObj.setHours(hours);
+  dateObj.setMinutes(minutes);
+
+  return dateObj;
+};
+
 const saveNewNotification = createAsyncThunk(
   "notification/SAVE_NEW_NOTIFICATION",
   async ({
@@ -21,7 +35,9 @@ const saveNewNotification = createAsyncThunk(
   }) => {
     // I know I  should put it in the backend, but this is just a playground
 
-    const newNotification = { userId, description, date, time };
+    const dateObj = changeDateFormat({ date: date, time: time });
+
+    const newNotification = { userId, description, date, time, dateObj };
 
     return await fetch(fetchURL, {
       method: "post",
@@ -107,6 +123,10 @@ const editNotification = createAsyncThunk(
         copyNotification.description = description;
         copyNotification.date = date;
         copyNotification.time = time;
+
+        const dateObj = changeDateFormat({ date: date, time: time });
+
+        copyNotification.dateObj = dateObj;
         return copyNotification;
       }
       return notification;

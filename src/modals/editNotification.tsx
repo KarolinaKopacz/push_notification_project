@@ -57,6 +57,7 @@ export const ModalForEditNotification = (props: Props) => {
       description: description,
       date: date,
       time: time,
+      dateObj: new Date(),
     });
   };
 
