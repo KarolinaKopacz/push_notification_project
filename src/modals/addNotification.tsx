@@ -41,6 +41,7 @@ export const ModalForAddNotification = (props: Props) => {
       description: description,
       date: date,
       time: time,
+      isShowed: false,
     });
 
     setDescription("");

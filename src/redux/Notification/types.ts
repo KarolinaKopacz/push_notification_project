@@ -10,6 +10,7 @@ export type NotificationProperty = {
   date: string;
   time: string;
   dateObj: Date;
+  isShowed: boolean;
 };
 
 export type NotificationList = {
@@ -18,12 +19,14 @@ export type NotificationList = {
   date: string;
   time: string;
   dateObj: Date;
+  isShowed: boolean;
 };
 
 export type AddedNewNotificationType = {
   description: string;
   date: string;
   time: string;
+  isShowed: boolean;
 };
 
 export type DeleteNotificationType = {

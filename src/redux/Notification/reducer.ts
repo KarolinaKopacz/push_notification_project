@@ -5,6 +5,7 @@ import {
   getNotificationsList,
   deleteOneNotification,
   editNotification,
+  finishedNotification,
 } from "./action";
 import {
   NotificationType,
@@ -21,6 +22,7 @@ export type State = {
   saveStatus: FetchStatus;
   deleteStatus: FetchStatus;
   getListStatus: FetchStatus;
+  finishstatus: FetchStatus;
 };
 
 const InitialState: State = {
@@ -30,6 +32,7 @@ const InitialState: State = {
   saveStatus: "idle",
   deleteStatus: "idle",
   getListStatus: "idle",
+  finishstatus: "idle",
 };
 
 export const notificationSlice = createSlice({
@@ -98,6 +101,18 @@ export const notificationSlice = createSlice({
     });
     builder.addCase(editNotification.rejected, (state, action) => {
       state.editStatus = "failed";
+    });
+
+    // is finished
+    builder.addCase(finishedNotification.pending, (state, action) => {
+      state.finishstatus = "loading";
+    });
+    builder.addCase(finishedNotification.fulfilled, (state, action) => {
+      state.notificationList = action.payload.modifiedNotificationList;
+      state.finishstatus = "succeeded";
+    });
+    builder.addCase(finishedNotification.rejected, (state, action) => {
+      state.finishstatus = "failed";
     });
   },
 });
