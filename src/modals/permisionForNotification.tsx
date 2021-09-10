@@ -10,7 +10,7 @@ import { isPast } from "date-fns";
 import { finishedNotification } from "../redux/Notification/action";
 
 export const PermissionSection = () => {
-  const notificationDatas = useAppSelector(
+  const notificationDatasPerUser = useAppSelector(
     (state) => state.notification.notificationList
   );
 
@@ -25,7 +25,7 @@ export const PermissionSection = () => {
   useEffect(() => {
     if (Notification.permission === "granted") {
       const interval = setInterval(() => {
-        notificationDatas.forEach((data) => {
+        notificationDatasPerUser.forEach((data) => {
           if (!data.isShowed && isPast(new Date(data.dateObj))) {
             new Notification(data.description, {});
             let isShowed = true;
@@ -34,10 +34,10 @@ export const PermissionSection = () => {
             );
           }
         });
-      }, 60 * 1000);
+      }, 30 * 1000);
       return () => clearInterval(interval);
     }
-  }, [notificationDatas]);
+  }, [notificationDatasPerUser]);
 
   return (
     <>

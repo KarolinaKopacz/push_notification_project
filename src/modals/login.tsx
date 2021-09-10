@@ -8,6 +8,7 @@ import {
   Alert,
   Spinner,
 } from "react-bootstrap";
+
 import { UserType } from "../redux/User/types";
 
 interface Props {
@@ -18,9 +19,9 @@ interface Props {
 export const LoginModal = (props: Props) => {
   const { onLoginPress, isLoading } = props;
 
-  const [login, setlogin] = useState<string>("");
-  const [password, setpassword] = useState<string>("");
   const [isErrorVisible, setErrorVisible] = useState(false);
+  const [password, setpassword] = useState<string>("");
+  const [login, setlogin] = useState<string>("");
 
   const handleLogInPress = () => {
     if (!login || !password) {

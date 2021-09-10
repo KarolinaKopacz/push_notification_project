@@ -21,7 +21,6 @@ import {
   NotificationList,
   DeleteNotificationType,
 } from "../../../redux/Notification/types";
-import { setHours } from "date-fns";
 
 export const ListOfNotifications = () => {
   const getListStatus = useAppSelector(
@@ -112,7 +111,6 @@ export const ListOfNotifications = () => {
                       <a
                         onClick={() => {
                           setNotificationForDelete(item);
-                          console.log("2 id", item);
                         }}
                       >
                         <FontAwesomeIcon key={item._id} icon={faTrashAlt} />

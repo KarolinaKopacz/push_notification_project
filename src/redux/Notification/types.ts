@@ -32,3 +32,15 @@ export type AddedNewNotificationType = {
 export type DeleteNotificationType = {
   _id: string | undefined;
 };
+
+export type EditNotificationThunkPayload = {
+  id: string;
+  description: string;
+  date: string;
+  time: string;
+};
+
+export type FinishNotificationThunkPayload = {
+  id: string;
+  isShowed: boolean;
+};

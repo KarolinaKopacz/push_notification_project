@@ -21,9 +21,9 @@ interface Props {
 export const RegisterModal = (props: Props) => {
   const { onRegisterPress, registerNewUser, status, isLoading } = props;
 
-  const [newLogin, setNewLogin] = useState<string>("");
-  const [newPassword, setNewPassword] = useState<string>("");
   const [isErrorVisible, setErrorVisible] = useState(false);
+  const [newPassword, setNewPassword] = useState<string>("");
+  const [newLogin, setNewLogin] = useState<string>("");
 
   const handleRegisterPress = () => {
     if (!newLogin || !newPassword) {

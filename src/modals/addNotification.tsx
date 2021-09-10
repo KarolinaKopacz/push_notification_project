@@ -1,4 +1,3 @@
-import { getHours, setHours } from "date-fns";
 import { useState } from "react";
 
 import { Alert, Button, Modal, Spinner } from "react-bootstrap";
@@ -26,10 +25,10 @@ export const ModalForAddNotification = (props: Props) => {
     show,
   } = props;
 
+  const [isErrorVisible, setErrorVisible] = useState(false);
   const [description, setDescription] = useState<string>();
   const [date, setDate] = useState<string>();
   const [time, setTime] = useState<string>();
-  const [isErrorVisible, setErrorVisible] = useState(false);
 
   const handleSavePress = () => {
     if (!description || !date || !time) {

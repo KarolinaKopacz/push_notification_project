@@ -1,24 +1,15 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { NotificationProperty } from "./types";
+import {
+  NotificationProperty,
+  EditNotificationThunkPayload,
+  FinishNotificationThunkPayload,
+} from "./types";
+import { changeDateFormat } from "../../components/changeDateFormat";
 import { AppState } from "../store";
 
 const fetchURL = "https://notificationbase-52e5.restdb.io/rest/notification";
 const urlPass = "61056fb569fac573b50a505b";
-
-interface Props {
-  date: string;
-  time: string;
-}
-const changeDateFormat = (props: Props) => {
-  const dateObj = new Date(props.date);
-  const hours = Number(props.time.substr(0, 2));
-  const minutes = Number(props.time.substr(3, 2));
-  dateObj.setHours(hours);
-  dateObj.setMinutes(minutes);
-
-  return dateObj;
-};
 
 const saveNewNotification = createAsyncThunk(
   "notification/SAVE_NEW_NOTIFICATION",
@@ -91,7 +82,6 @@ const getNotificationsList = createAsyncThunk(
 const deleteOneNotification = createAsyncThunk(
   "notification/DELETE_NOTIFICATION",
   async ({ id }: { id: string | undefined }) => {
-    console.log("1 id", id);
     return await fetch(
       `https://notificationbase-52e5.restdb.io/rest/notification/${id}`,
       {
@@ -109,13 +99,6 @@ const deleteOneNotification = createAsyncThunk(
     });
   }
 );
-
-type EditNotificationThunkPayload = {
-  id: string;
-  description: string;
-  date: string;
-  time: string;
-};
 
 const editNotification = createAsyncThunk(
   "notification/EDIT_NOTIFICATION",
@@ -157,11 +140,6 @@ const editNotification = createAsyncThunk(
     });
   }
 );
-
-type FinishNotificationThunkPayload = {
-  id: string;
-  isShowed: boolean;
-};
 
 const finishedNotification = createAsyncThunk(
   "notification/SHOWED_NOTIFICATION",
