@@ -27,7 +27,7 @@ export const PermissionSection = () => {
       const interval = setInterval(() => {
         notificationDatasPerUser.forEach((data) => {
           if (!data.isShowed && isPast(new Date(data.dateObj))) {
-            new Notification(data.description, {});
+            new Notification(data.description, { icon: img });
             let isShowed = true;
             dispatch(
               finishedNotification({ id: data._id, isShowed: isShowed })
@@ -41,9 +41,11 @@ export const PermissionSection = () => {
 
   return (
     <>
-      <Button onClick={() => Notification.requestPermission()}>
-        Zezwól na wyświetlanie powiadomień
-      </Button>
+      {Notification.permission === "granted" ? null : (
+        <Button onClick={() => Notification.requestPermission()}>
+          Zezwól na wyświetlanie powiadomień
+        </Button>
+      )}
     </>
   );
 };
