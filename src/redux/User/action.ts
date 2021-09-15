@@ -23,7 +23,7 @@ const checkUserExists = createAsyncThunk(
         password: string;
         _id: number;
       }[];
-      const user = allUsers.find(
+      const user = allUsers.findIndex(
         (currentUser) => currentUser.login === newLogin
       );
 
