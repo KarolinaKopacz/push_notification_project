@@ -14,12 +14,14 @@ import { NewRegisterType } from "../redux/User/types";
 interface Props {
   onRegisterPress: (newUser: NewRegisterType) => void;
   registerNewUser: (newUser: NewRegisterType) => void;
-  status: string;
   isLoading: boolean;
+  isInvalid: boolean;
+  status: string;
 }
 
 export const RegisterModal = (props: Props) => {
-  const { onRegisterPress, registerNewUser, status, isLoading } = props;
+  const { onRegisterPress, registerNewUser, status, isLoading, isInvalid } =
+    props;
 
   const [isErrorVisible, setErrorVisible] = useState(false);
   const [newPassword, setNewPassword] = useState<string>("");
@@ -45,6 +47,7 @@ export const RegisterModal = (props: Props) => {
   return (
     <>
       <Container>
+        <h1>Zarejestruj się</h1>
         <Row>
           <Col sm={"auto"}>
             <Form>
@@ -55,29 +58,38 @@ export const RegisterModal = (props: Props) => {
                     Wypełnij wszystkie pola
                   </Alert>
                 ) : null}
-                <Form.Label>Login</Form.Label>
+
                 <Form.Control
                   type="text"
-                  placeholder="Enter login"
+                  placeholder="Wpisz login"
                   value={newLogin}
                   onChange={(ev) => setNewLogin(ev.target.value)}
+                  isInvalid={isInvalid}
+                  onFocus={() => setErrorVisible(false)}
                 ></Form.Control>
+                <Form.Control.Feedback type="invalid">
+                  Login już istnieje.
+                </Form.Control.Feedback>
               </Form.Group>
             </Form>
             <Form>
               <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Label>Hasło</Form.Label>
                 <Form.Control
                   type="password"
-                  placeholder="Enter password"
+                  placeholder="Wpisz hasło"
                   value={newPassword}
                   onChange={(ev) => setNewPassword(ev.target.value)}
+                  isInvalid={isInvalid}
+                  onFocus={() => setErrorVisible(false)}
                 ></Form.Control>
               </Form.Group>
               {isLoading ? (
                 <Spinner animation="border" role="status" />
               ) : (
-                <Button variant="primary" onClick={handleRegisterPress}>
+                <Button
+                  variant="outline-secondary"
+                  onClick={handleRegisterPress}
+                >
                   Utwórz konto
                 </Button>
               )}

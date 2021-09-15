@@ -14,10 +14,11 @@ import { UserType } from "../redux/User/types";
 interface Props {
   onLoginPress: (customUser: UserType) => void;
   isLoading: boolean;
+  isInvalid: boolean;
 }
 
 export const LoginModal = (props: Props) => {
-  const { onLoginPress, isLoading } = props;
+  const { onLoginPress, isLoading, isInvalid } = props;
 
   const [isErrorVisible, setErrorVisible] = useState(false);
   const [password, setpassword] = useState<string>("");
@@ -34,6 +35,7 @@ export const LoginModal = (props: Props) => {
   return (
     <>
       <Container>
+        <h1>Zaloguj się</h1>
         <Row>
           <Col sm={"auto"}>
             <Form>
@@ -44,29 +46,35 @@ export const LoginModal = (props: Props) => {
                     Wypełnij wszystkie pola
                   </Alert>
                 ) : null}
-                <Form.Label>Login</Form.Label>
+
                 <Form.Control
                   type="text"
-                  placeholder="Enter login"
+                  placeholder="Wpisz login"
                   value={login}
                   onChange={(ev) => setlogin(ev.target.value)}
+                  isInvalid={isInvalid}
+                  onFocus={() => setErrorVisible(false)}
                 ></Form.Control>
               </Form.Group>
             </Form>
             <Form>
               <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Label>Hasło</Form.Label>
                 <Form.Control
                   type="password"
-                  placeholder="Enter password"
+                  placeholder="Wpisz hasło"
                   value={password}
                   onChange={(ev) => setpassword(ev.target.value)}
+                  isInvalid={isInvalid}
+                  onFocus={() => setErrorVisible(false)}
                 ></Form.Control>
+                <Form.Control.Feedback type="invalid">
+                  Login lub hasło nieprawidłowe
+                </Form.Control.Feedback>
               </Form.Group>
               {isLoading ? (
                 <Spinner animation="border" role="status" />
               ) : (
-                <Button variant="primary" onClick={handleLogInPress}>
+                <Button variant="outline-secondary" onClick={handleLogInPress}>
                   Zaloguj
                 </Button>
               )}

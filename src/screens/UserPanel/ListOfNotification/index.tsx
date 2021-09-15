@@ -3,22 +3,22 @@ import { useState } from "react";
 
 import { faTrashAlt, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Table, Spinner } from "react-bootstrap";
+import { Table, Spinner, Alert } from "react-bootstrap";
 
 import { useAppSelector } from "../../../hooks/useAppSelector";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 
 import { ModalForEditNotification } from "../../../modals/editNotification";
-import { ConfirmDeleteModal } from "../../../modals/confirmDelete";
+import { ConfirmDeleteModal } from "../../../modals/deleteNotification";
 import { resetStatus } from "../../../redux/Notification/reducer";
-import { AlertModal } from "../../../modals/alerts";
+
 import {
   deleteOneNotification,
   editNotification,
   getNotificationsList,
 } from "../../../redux/Notification/action";
 import {
-  NotificationList,
+  Notification,
   DeleteNotificationType,
 } from "../../../redux/Notification/types";
 
@@ -36,11 +36,10 @@ export const ListOfNotifications = () => {
   const notificationDeleteStatus = useAppSelector(
     (state) => state.notification.deleteStatus
   );
-
   const dispatch = useAppDispatch();
 
   const [notificationForEdit, setNotificationForEdit] =
-    useState<NotificationList>();
+    useState<Notification>();
   const [notificationForDelete, setNotificationForDelete] =
     useState<DeleteNotificationType>();
 
@@ -63,15 +62,11 @@ export const ListOfNotifications = () => {
     }
   }, [notificationDeleteStatus]);
 
-  const handleCloseAlertModal = () => {
-    dispatch(resetStatus());
-  };
-
   const handleDeletePress = (deleteNotification: DeleteNotificationType) => {
     dispatch(deleteOneNotification({ id: deleteNotification._id }));
   };
 
-  const handleEditPress = (editedNotification: NotificationList) => {
+  const handleEditPress = (editedNotification: Notification) => {
     dispatch(
       editNotification({
         id: editedNotification._id,
@@ -84,18 +79,21 @@ export const ListOfNotifications = () => {
 
   return (
     <>
-      <Table>
+      {getListStatus === "failed" ? (
+        <Alert variant="danger">
+          <Alert.Heading></Alert.Heading>
+          Wystąpił błąd podczas ładowania przypomnień. Spróbuj później.
+        </Alert>
+      ) : null}
+      <Table className="table">
         <thead>
           <tr>
-            <th>Nazwa</th>
+            <th>Nazwa przypomnienia</th>
             <th>Data</th>
-            <th>Czas</th>
-            <th>Akcje</th>
+            <th>Godzina przypomnienie</th>
+            <th>Edytuj/usuń</th>
           </tr>
         </thead>
-        {getListStatus === "loading" ? (
-          <Spinner animation="border" role="status" />
-        ) : null}
         {getListStatus === "succeeded"
           ? listOf.map((item) => {
               return (
@@ -121,23 +119,16 @@ export const ListOfNotifications = () => {
               );
             })
           : null}
-        {getListStatus === "failed" ? (
-          <AlertModal
-            message="Wystąpił błąd podczas ładowania przypomnień. Spróbuj później"
-            confirm="Ok"
-            onPress={handleCloseAlertModal}
-          />
-        ) : null}
-        <ModalForEditNotification
-          isLoading={notificationEditStatus === "loading"}
-          title="Edytuj przypomnienie"
-          notificationName="Nazwa przypomnienia"
-          dateAndTimeSectionName="Ustaw czas i datę"
-          notification={notificationForEdit}
-          onSavePress={handleEditPress}
-          onClosePress={() => setNotificationForEdit(undefined)}
-        />
       </Table>
+      <ModalForEditNotification
+        isLoading={notificationEditStatus === "loading"}
+        title="Edytuj przypomnienie"
+        notificationName="Treść przypomnienia"
+        dateAndTimeSectionName="Ustaw datę i godzinę przypomnienia"
+        notification={notificationForEdit}
+        onSavePress={handleEditPress}
+        onClosePress={() => setNotificationForEdit(undefined)}
+      />
       <ConfirmDeleteModal
         onConfirmPress={handleDeletePress}
         onClosePress={() => setNotificationForDelete(undefined)}
@@ -145,6 +136,11 @@ export const ListOfNotifications = () => {
         notification={notificationForDelete}
         isLoading={notificationDeleteStatus === "loading"}
       />
+      {getListStatus === "loading" ? (
+        <div className="spinner">
+          <Spinner animation="border" variant="secondary" role="status" />
+        </div>
+      ) : null}
     </>
   );
 };

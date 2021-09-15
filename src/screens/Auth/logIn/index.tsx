@@ -3,7 +3,6 @@ import { useAppDispatch } from "../../../hooks/useAppDispatch";
 
 import { resetStatus } from "../../../redux/User/reducer";
 import { UserType } from "../../../redux/User/types";
-import { AlertModal } from "../../../modals/alerts";
 import { logIn } from "../../../redux/User/action";
 import { LoginModal } from "../../../modals/login";
 
@@ -19,9 +18,6 @@ export const LogInModal = () => {
         customPassword: userProperties.newPasswordEncrypted,
       })
     );
-  };
-
-  const handleCloseAlertModal = () => {
     dispatch(resetStatus());
   };
 
@@ -30,15 +26,8 @@ export const LogInModal = () => {
       <LoginModal
         onLoginPress={handleLogInPress}
         isLoading={loginStatus === "loading"}
+        isInvalid={loginStatus === "failed"}
       />
-
-      {loginStatus === "failed" ? (
-        <AlertModal
-          onPress={handleCloseAlertModal}
-          message="Hasło lub login jest nieprawidłowy."
-          confirm="OK!"
-        />
-      ) : null}
     </>
   );
 };

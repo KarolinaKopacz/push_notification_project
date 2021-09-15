@@ -6,7 +6,7 @@ import "./style.css";
 
 import { useAppSelector } from "./hooks/useAppSelector";
 
-import { Home } from "./screens/UserPanel/home";
+import { Home } from "./screens/UserPanel/Home";
 import { Auth } from "./screens/Auth";
 
 function App() {

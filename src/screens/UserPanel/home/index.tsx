@@ -1,19 +1,17 @@
+import { PermissionSection } from "../../../modals/permisionForNotification";
 import { ListOfNotifications } from "../ListOfNotification";
 import { AddNotificationView } from "../AddNotification";
-import { MenuList } from "../../../modals/menuList";
-import { PermissionSection } from "../../../modals/permisionForNotification";
+import { Header } from "../../../modals/header";
 
 export const Home = (props: any) => {
   const { userName } = props;
 
   return (
     <>
-      <MenuList userName={userName} />
-      <PermissionSection />
-
+      <Header userName={userName} />
       <AddNotificationView />
-
       <ListOfNotifications />
+      <PermissionSection />
     </>
   );
 };

@@ -1,18 +1,25 @@
 import { useEffect } from "react";
 import { useState } from "react";
 
-import { Alert, Button, Modal, Spinner } from "react-bootstrap";
+import {
+  Alert,
+  Button,
+  FormControl,
+  InputGroup,
+  Modal,
+  Spinner,
+} from "react-bootstrap";
 
-import { NotificationList } from "../redux/Notification/types";
+import { Notification } from "../redux/Notification/types";
 
 interface Props {
-  title: string;
-  notificationName: string;
+  onSavePress: (editedNotifcation: Notification) => void;
   dateAndTimeSectionName: string;
-  notification?: NotificationList;
-  onSavePress: (editedNotifcation: NotificationList) => void;
+  notification?: Notification;
+  notificationName: string;
   onClosePress: () => void;
   isLoading: boolean;
+  title: string;
 }
 
 export const ModalForEditNotification = (props: Props) => {
@@ -53,12 +60,13 @@ export const ModalForEditNotification = (props: Props) => {
     }
 
     onSavePress({
+      userId: notification.userId,
       _id: notification._id,
       description: description,
       date: date,
       time: time,
       dateObj: new Date(),
-      isShowed: false,
+      isFinish: false,
     });
   };
 
@@ -85,34 +93,41 @@ export const ModalForEditNotification = (props: Props) => {
               Wszystkie pola muszą być uzupełnione
             </Alert>
           ) : null}
-          <p>{notificationName}</p>
-          <input
-            type="text"
-            value={description}
-            onChange={(ev) => setDescription(ev.target.value)}
-          ></input>
 
-          <p>{dateAndTimeSectionName}</p>
-          <input
-            type="date"
-            value={date}
-            onChange={(ev) => setDate(ev.target.value)}
-          />
-          <input
-            type="time"
-            value={time}
-            onChange={(ev) => setTime(ev.target.value)}
-          />
+          <p className="p-in-modal">{notificationName}</p>
+          <InputGroup className="mb-3">
+            <FormControl
+              type="text"
+              value={description}
+              onChange={(ev) => setDescription(ev.target.value)}
+            ></FormControl>
+          </InputGroup>
+
+          <p className="p-in-modal">{dateAndTimeSectionName}</p>
+          <InputGroup className="mb-3">
+            <FormControl
+              type="date"
+              value={date}
+              onChange={(ev) => setDate(ev.target.value)}
+            />
+            <FormControl
+              type="time"
+              value={time}
+              onChange={(ev) => setTime(ev.target.value)}
+            />
+          </InputGroup>
         </Modal.Body>
       ) : null}
       <Modal.Footer>
         {isLoading ? (
-          <Spinner animation="border" role="status" />
+          <Spinner animation="border" variant="secondary" role="status" />
         ) : (
           <>
-            <Button onClick={() => handleSavePress()}>Zapisz</Button>
             <Button variant="outline-danger" onClick={() => handleClosePress()}>
               Zamknij
+            </Button>
+            <Button variant="outline-success" onClick={() => handleSavePress()}>
+              Zapisz
             </Button>
           </>
         )}

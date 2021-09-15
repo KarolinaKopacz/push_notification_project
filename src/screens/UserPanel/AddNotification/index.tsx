@@ -6,18 +6,17 @@ import { Button } from "react-bootstrap";
 import { useAppSelector } from "../../../hooks/useAppSelector";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 
-import { AddedNewNotificationType } from "../../../redux/Notification/types";
 import { ModalForAddNotification } from "../../../modals/addNotification";
 import { saveNewNotification } from "../../../redux/Notification/action";
+import { Notification } from "../../../redux/Notification/types";
 
 export const AddNotificationView = () => {
   const dispatch = useAppDispatch();
 
-  const userId = useAppSelector((state) => state.user.user?._id);
   const saveStatus = useAppSelector((state) => state.notification.saveStatus);
+  const userId = useAppSelector((state) => state.user.user?._id);
 
-  const [newNotification, setNewNotification] =
-    useState<AddedNewNotificationType>();
+  const [newNotification, setNewNotification] = useState<Notification>();
   const [modalForAddNew, setShowModalForAddNew] = useState(false);
 
   useEffect(() => {
@@ -26,7 +25,7 @@ export const AddNotificationView = () => {
     }
   }, [saveStatus]);
 
-  const handleSavePress = (newNotification: AddedNewNotificationType) => {
+  const handleSavePress = (newNotification: Notification) => {
     dispatch(
       saveNewNotification({
         userId: userId,
@@ -39,9 +38,9 @@ export const AddNotificationView = () => {
   };
 
   return (
-    <>
+    <div className="button-to-add-notification">
       <Button
-        variant="outline-success"
+        variant="secondary"
         size="lg"
         onClick={() => setShowModalForAddNew(true)}
       >
@@ -49,13 +48,13 @@ export const AddNotificationView = () => {
       </Button>
       <ModalForAddNotification
         show={modalForAddNew}
-        title="Przypomnienie"
-        notificationName="Nazwa przypomnienia"
-        dateAndTimeSectionName="Ustaw czas przypomnienia"
+        title="Dodaj przypomnienie"
+        notificationName="Treść przypomnienia"
+        dateAndTimeSectionName="Ustaw datę i godzinę przypomnienia"
         onSavePress={handleSavePress}
         onClosePress={() => setShowModalForAddNew(false)}
         isLoading={saveStatus === "loading"}
       />
-    </>
+    </div>
   );
 };

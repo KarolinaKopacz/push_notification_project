@@ -3,11 +3,11 @@ import { Button, Modal, Spinner } from "react-bootstrap";
 import { DeleteNotificationType } from "../redux/Notification/types";
 
 interface Props {
-  notification?: DeleteNotificationType;
-  message: string;
   onConfirmPress: (deleteNotification: DeleteNotificationType) => void;
+  notification?: DeleteNotificationType;
   onClosePress: () => void;
   isLoading: boolean;
+  message: string;
 }
 
 export const ConfirmDeleteModal = (props: Props) => {
@@ -31,15 +31,25 @@ export const ConfirmDeleteModal = (props: Props) => {
     >
       {notification ? (
         <>
-          <Modal.Body>{message}</Modal.Body>
+          <Modal.Header>
+            <Modal.Title id="contained-modal-title-vcenter">
+              {message}
+            </Modal.Title>
+          </Modal.Header>
+
           <Modal.Footer>
             {isLoading ? (
-              <Spinner animation="border" role="status" />
+              <Spinner animation="border" variant="secondary" role="status" />
             ) : (
               <>
-                <Button onClick={handleConfirmDeletePress}>Tak</Button>
                 <Button variant="outline-danger" onClick={handleClosePress}>
                   Nie
+                </Button>
+                <Button
+                  variant="outline-success"
+                  onClick={handleConfirmDeletePress}
+                >
+                  Tak
                 </Button>
               </>
             )}

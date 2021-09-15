@@ -1,5 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 
+import { Notification } from "./types";
 import {
   saveNewNotification,
   getNotificationsList,
@@ -7,17 +8,12 @@ import {
   editNotification,
   finishedNotification,
 } from "./action";
-import {
-  NotificationType,
-  NotificationList,
-  NotificationProperty,
-} from "./types";
 
 type FetchStatus = "loading" | "succeeded" | "failed" | "idle";
 
 export type State = {
-  notification: NotificationType | null;
-  notificationList: NotificationList[];
+  notification: Notification | null;
+  notificationList: Notification[];
   editStatus: FetchStatus;
   saveStatus: FetchStatus;
   deleteStatus: FetchStatus;
@@ -52,7 +48,7 @@ export const notificationSlice = createSlice({
     builder.addCase(saveNewNotification.fulfilled, (state, action) => {
       if ("createdNotification" in action.payload) {
         state.notificationList.push(
-          action.payload.createdNotification as NotificationProperty
+          action.payload.createdNotification as Notification
         );
       }
       state.saveStatus = "succeeded";
@@ -66,7 +62,7 @@ export const notificationSlice = createSlice({
       state.getListStatus = "loading";
     });
     builder.addCase(getNotificationsList.fulfilled, (state, action) => {
-      state.notificationList = action.payload as NotificationList[];
+      state.notificationList = action.payload as Notification[];
       state.getListStatus = "succeeded";
     });
     builder.addCase(getNotificationsList.rejected, (state, action) => {
@@ -91,12 +87,22 @@ export const notificationSlice = createSlice({
       state.deleteStatus = "failed";
     });
 
-    // edit
+    // edit notification
     builder.addCase(editNotification.pending, (state, action) => {
       state.editStatus = "loading";
     });
     builder.addCase(editNotification.fulfilled, (state, action) => {
-      state.notificationList = action.payload.modifiedNotificationList;
+      const newList: Notification[] = [];
+      state.notificationList.map((notification) => {
+        if (notification._id === action.payload.notification._id) {
+          newList.push(action.payload.notification);
+          return;
+        }
+
+        newList.push(current(notification));
+      });
+
+      state.notificationList = newList;
       state.editStatus = "succeeded";
     });
     builder.addCase(editNotification.rejected, (state, action) => {
@@ -108,7 +114,15 @@ export const notificationSlice = createSlice({
       state.finishstatus = "loading";
     });
     builder.addCase(finishedNotification.fulfilled, (state, action) => {
-      state.notificationList = action.payload.modifiedNotificationList;
+      const newList: Notification[] = [];
+      state.notificationList.map((notification) => {
+        if (notification._id === action.payload.notification._id) {
+          newList.push(action.payload.notification);
+          return;
+        }
+        newList.push(current(notification));
+      });
+      state.notificationList = newList;
       state.finishstatus = "succeeded";
     });
     builder.addCase(finishedNotification.rejected, (state, action) => {

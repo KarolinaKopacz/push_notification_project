@@ -1,32 +1,11 @@
-export type NotificationType = {
-  _id: string | undefined;
-  description: string;
-  date: string;
-};
-export type NotificationProperty = {
+export type Notification = {
   userId: string;
   _id: string;
   description: string;
   date: string;
   time: string;
   dateObj: Date;
-  isShowed: boolean;
-};
-
-export type NotificationList = {
-  _id: string;
-  description: string;
-  date: string;
-  time: string;
-  dateObj: Date;
-  isShowed: boolean;
-};
-
-export type AddedNewNotificationType = {
-  description: string;
-  date: string;
-  time: string;
-  isShowed: boolean;
+  isFinish: boolean;
 };
 
 export type DeleteNotificationType = {
@@ -42,5 +21,5 @@ export type EditNotificationThunkPayload = {
 
 export type FinishNotificationThunkPayload = {
   id: string;
-  isShowed: boolean;
+  isFinish: boolean;
 };

@@ -1,12 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
+import { changeDateFormat } from "../../components/changeDateFormat";
+import { AppState } from "../store";
 import {
-  NotificationProperty,
+  Notification,
   EditNotificationThunkPayload,
   FinishNotificationThunkPayload,
 } from "./types";
-import { changeDateFormat } from "../../components/changeDateFormat";
-import { AppState } from "../store";
 
 const fetchURL = "https://notificationbase-52e5.restdb.io/rest/notification";
 const urlPass = "61056fb569fac573b50a505b";
@@ -27,7 +27,7 @@ const saveNewNotification = createAsyncThunk(
     // I know I  should put it in the backend, but this is just a playground
 
     const dateObj = changeDateFormat({ date: date, time: time });
-    const isShowed = false;
+    const isFinish = false;
 
     const newNotification = {
       userId,
@@ -35,7 +35,7 @@ const saveNewNotification = createAsyncThunk(
       date,
       time,
       dateObj,
-      isShowed,
+      isFinish,
     };
 
     return await fetch(fetchURL, {
@@ -67,8 +67,7 @@ const getNotificationsList = createAsyncThunk(
       },
     }).then(async (response) => {
       if (response.ok) {
-        const allNotifications =
-          (await response.json()) as NotificationProperty[];
+        const allNotifications = (await response.json()) as Notification[];
 
         return allNotifications.filter(
           (notification) => notification.userId === userId
@@ -103,75 +102,81 @@ const deleteOneNotification = createAsyncThunk(
 const editNotification = createAsyncThunk(
   "notification/EDIT_NOTIFICATION",
   async (payload: EditNotificationThunkPayload, thunkApi) => {
-    const { id, time, description, date } = payload;
+    try {
+      const { id, time, description, date } = payload;
 
-    const { notificationList } = (thunkApi.getState() as AppState).notification;
+      const { notificationList } = (thunkApi.getState() as AppState)
+        .notification;
 
-    const modifiedNotificationList = notificationList.map((notification) => {
-      if (notification._id === id) {
-        const copyNotification = Object.assign({}, notification);
-
-        copyNotification.description = description;
-        copyNotification.date = date;
-        copyNotification.time = time;
-
-        const dateObj = changeDateFormat({ date: date, time: time });
-
-        copyNotification.dateObj = dateObj;
-        return copyNotification;
+      const notificationIndex = notificationList.findIndex((n) => n._id === id);
+      if (notificationIndex === -1) {
+        throw new Error("Notification not found");
       }
-      return notification;
-    });
-    return await fetch(
-      `https://notificationbase-52e5.restdb.io/rest/notification/${id}`,
-      {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-          "x-apikey": urlPass,
-        },
-        body: JSON.stringify(modifiedNotificationList),
-      }
-    ).then((response) => {
-      if (response.ok) {
-        return { modifiedNotificationList };
-      }
-      throw new Error(response.statusText);
-    });
+
+      const notification = { ...notificationList[notificationIndex] };
+
+      notification.description = description;
+      notification.date = date;
+      notification.time = time;
+      notification.dateObj = changeDateFormat({ date: date, time: time });
+
+      return await fetch(
+        `https://notificationbase-52e5.restdb.io/rest/notification/${id}`,
+        {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+            "x-apikey": urlPass,
+          },
+          body: JSON.stringify(notification),
+        }
+      ).then((response) => {
+        if (response.ok) {
+          return { notification: notification };
+        }
+        throw new Error(response.statusText);
+      });
+    } catch (error) {
+      throw error;
+    }
   }
 );
 
 const finishedNotification = createAsyncThunk(
-  "notification/SHOWED_NOTIFICATION",
+  "notification/FINISHED_NOTIFICATION",
   async (payload: FinishNotificationThunkPayload, thunkApi) => {
-    const { id, isShowed } = payload;
-    const { notificationList } = (thunkApi.getState() as AppState).notification;
+    try {
+      const { id, isFinish } = payload;
+      const { notificationList } = (thunkApi.getState() as AppState)
+        .notification;
 
-    const modifiedNotificationList = notificationList.map((notification) => {
-      if (notification._id === id) {
-        const copyNotification = Object.assign({}, notification);
+      const notificationIndex = notificationList.findIndex((n) => n._id === id);
+      if (notificationIndex === -1) {
+        throw new Error("Notification not found");
+      }
+      const notification = { ...notificationList[notificationIndex] };
 
-        copyNotification.isShowed = isShowed;
-        return copyNotification;
-      }
-      return notification;
-    });
-    return await fetch(
-      `https://notificationbase-52e5.restdb.io/rest/notification/${id}`,
-      {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-          "x-apikey": urlPass,
-        },
-        body: JSON.stringify(modifiedNotificationList),
-      }
-    ).then((response) => {
-      if (response.ok) {
-        return { modifiedNotificationList };
-      }
-      throw new Error(response.statusText);
-    });
+      notification.isFinish = isFinish;
+
+      return await fetch(
+        `https://notificationbase-52e5.restdb.io/rest/notification/${id}`,
+        {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+            "x-apikey": urlPass,
+          },
+          body: JSON.stringify(notification),
+        }
+      ).then((response) => {
+        if (response.ok) {
+          return { notification: notification };
+        }
+        throw new Error(response.statusText);
+      });
+    } catch (error) {
+      throw error;
+    }
   }
 );
 

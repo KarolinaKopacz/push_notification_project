@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import { useAppSelector } from "../../../hooks/useAppSelector";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 
@@ -5,7 +7,7 @@ import { checkUserExists, registerNewUser } from "../../../redux/User/action";
 import { NewRegisterType } from "../../../redux/User/types";
 import { resetStatus } from "../../../redux/User/reducer";
 import { RegisterModal } from "../../../modals/register";
-import { AlertModal } from "../../../modals/alerts";
+import { LogInModal } from "../LogIn";
 
 export const Register = () => {
   const checkUserExistsStatus = useAppSelector(
@@ -14,6 +16,8 @@ export const Register = () => {
   const registerNewUserStatus = useAppSelector(
     (state) => state.user.registerNewUserStatus
   );
+
+  const [redirectToLoginModal, setRedirectToLoginModal] = useState(false);
 
   const dispatch = useAppDispatch();
 
@@ -28,31 +32,26 @@ export const Register = () => {
         newPassword: newUser.newPasswordEncrypted,
       })
     );
-    dispatch(resetStatus());
-  };
-
-  const handleCloseAlertModal = () => {
+    setRedirectToLoginModal(true);
     dispatch(resetStatus());
   };
 
   return (
     <>
-      <RegisterModal
-        onRegisterPress={handleRegisterPress}
-        status={checkUserExistsStatus}
-        registerNewUser={registerNewUserFunc}
-        isLoading={
-          registerNewUserStatus === "loading" ||
-          checkUserExistsStatus === "loading"
-        }
-      />
-      {checkUserExistsStatus === "failed" ? (
-        <AlertModal
-          onPress={handleCloseAlertModal}
-          message="Login juz istnieje"
-          confirm="OK!"
+      {!redirectToLoginModal ? (
+        <RegisterModal
+          onRegisterPress={handleRegisterPress}
+          status={checkUserExistsStatus}
+          registerNewUser={registerNewUserFunc}
+          isLoading={
+            checkUserExistsStatus === "loading" ||
+            registerNewUserStatus === "loading"
+          }
+          isInvalid={checkUserExistsStatus === "failed"}
         />
-      ) : null}
+      ) : (
+        <LogInModal />
+      )}
     </>
   );
 };

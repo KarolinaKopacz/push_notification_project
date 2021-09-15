@@ -1,16 +1,24 @@
 import { useState } from "react";
 
-import { Alert, Button, Modal, Spinner } from "react-bootstrap";
+import {
+  Alert,
+  Button,
+  Form,
+  FormControl,
+  InputGroup,
+  Modal,
+  Spinner,
+} from "react-bootstrap";
 
-import { AddedNewNotificationType } from "../redux/Notification/types";
+import { Notification } from "../redux/Notification/types";
 
 interface Props {
-  title: string;
-  notificationName: string;
+  onSavePress: (newNotification: Notification) => void;
   dateAndTimeSectionName: string;
-  onSavePress: (newNotification: AddedNewNotificationType) => void;
+  notificationName: string;
   onClosePress: () => void;
   isLoading: boolean;
+  title: string;
   show: boolean;
 }
 
@@ -37,10 +45,13 @@ export const ModalForAddNotification = (props: Props) => {
     }
 
     onSavePress({
+      userId: "",
+      _id: "",
+      dateObj: new Date(),
       description: description,
       date: date,
       time: time,
-      isShowed: false,
+      isFinish: false,
     });
 
     setDescription("");
@@ -71,24 +82,36 @@ export const ModalForAddNotification = (props: Props) => {
             Wszystkie pola muszą być uzupełnione
           </Alert>
         ) : null}
-        <p>{notificationName}</p>
-        <input
-          type="text"
-          value={description}
-          onChange={(ev) => setDescription(ev.target.value)}
-        ></input>
+        <p className="p-in-modal">{notificationName}</p>
+        <InputGroup className="mb-3">
+          <FormControl
+            type="text"
+            value={description}
+            onChange={(ev) => setDescription(ev.target.value)}
+            onFocus={() => setErrorVisible(false)}
+          />
+        </InputGroup>
 
-        <p>{dateAndTimeSectionName}</p>
-        <input
-          type="date"
-          value={date}
-          onChange={(ev) => setDate(ev.target.value)}
-        />
-        <input
-          type="time"
-          value={time}
-          onChange={(ev) => setTime(ev.target.value)}
-        />
+        <p className="p-in-modal">{dateAndTimeSectionName}</p>
+
+        <InputGroup className="mb-3">
+          <Form.Control
+            type="date"
+            name="duedate"
+            placeholder="Due date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            onFocus={() => setErrorVisible(false)}
+          />
+
+          <FormControl
+            type="time"
+            value={time}
+            onChange={(ev) => setTime(ev.target.value)}
+            onFocus={() => setErrorVisible(false)}
+          />
+        </InputGroup>
+        <InputGroup className="mb-3"></InputGroup>
       </Modal.Body>
 
       <Modal.Footer>
@@ -96,9 +119,11 @@ export const ModalForAddNotification = (props: Props) => {
           <Spinner animation="border" role="status" />
         ) : (
           <>
-            <Button onClick={() => handleSavePress()}>Zapisz</Button>
             <Button variant="outline-danger" onClick={() => handleClosePress()}>
               Zamknij
+            </Button>
+            <Button variant="outline-success" onClick={() => handleSavePress()}>
+              Zapisz
             </Button>
           </>
         )}

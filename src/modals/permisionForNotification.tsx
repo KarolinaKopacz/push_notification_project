@@ -26,11 +26,11 @@ export const PermissionSection = () => {
     if (Notification.permission === "granted") {
       const interval = setInterval(() => {
         notificationDatasPerUser.forEach((data) => {
-          if (!data.isShowed && isPast(new Date(data.dateObj))) {
+          if (!data.isFinish && isPast(new Date(data.dateObj))) {
             new Notification(data.description, {});
-            let isShowed = true;
+            let isFinish = true;
             dispatch(
-              finishedNotification({ id: data._id, isShowed: isShowed })
+              finishedNotification({ id: data._id, isFinish: isFinish })
             );
           }
         });
