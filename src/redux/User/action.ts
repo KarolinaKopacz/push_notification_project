@@ -10,6 +10,7 @@ const urlPass = "610e949a69fac573b50a52f5";
 const checkUserExists = createAsyncThunk(
   "users/CHECK_USERS_EXISTS",
   async ({ newLogin }: { newLogin: string }) => {
+    console.log("newLogin", newLogin);
     // I know I  should put it in the backend, but this is just a playground
     return await fetch(fetchURL, {
       method: "get",
@@ -19,18 +20,17 @@ const checkUserExists = createAsyncThunk(
       },
     }).then(async (response) => {
       const allUsers = (await response.json()) as {
-        login: string;
+        newLogin: string;
         password: string;
         _id: number;
       }[];
       const user = allUsers.findIndex(
-        (currentUser) => currentUser.login === newLogin
+        (currentUser) => currentUser.newLogin === newLogin
       );
 
-      if (user) {
+      if (user > -1) {
         throw new Error("login is unavailable");
       }
-
       return user;
     });
   }

@@ -9,40 +9,50 @@ import {
   Alert,
   Spinner,
 } from "react-bootstrap";
-import { NewRegisterType } from "../redux/User/types";
+import { FetchStatus, NewRegisterType } from "../redux/User/types";
 
 interface Props {
   onRegisterPress: (newUser: NewRegisterType) => void;
   registerNewUser: (newUser: NewRegisterType) => void;
   isLoading: boolean;
-  isInvalid: boolean;
-  status: string;
+  checkUserExistsStatus: FetchStatus;
 }
 
 export const RegisterModal = (props: Props) => {
-  const { onRegisterPress, registerNewUser, status, isLoading, isInvalid } =
+  const { onRegisterPress, registerNewUser, checkUserExistsStatus, isLoading } =
     props;
 
-  const [isErrorVisible, setErrorVisible] = useState(false);
+  const [isAlertVisible, setAlertVisible] = useState(false);
   const [newPassword, setNewPassword] = useState<string>("");
   const [newLogin, setNewLogin] = useState<string>("");
+  const [userAlreadyExistsVisible, setUserAlreadyExistsVisible] =
+    useState(false);
 
   const handleRegisterPress = () => {
     if (!newLogin || !newPassword) {
-      setErrorVisible(true);
+      setAlertVisible(true);
       return;
     }
     onRegisterPress({ newLogin: newLogin, newPasswordEncrypted: newPassword });
   };
 
   useEffect(() => {
-    if (status === "succeeded") {
+    if (checkUserExistsStatus === "succeeded") {
       registerNewUser({
         newLogin: newLogin,
         newPasswordEncrypted: newPassword,
       });
     }
-  }, [status]);
+
+    if (checkUserExistsStatus === "failed") {
+      setUserAlreadyExistsVisible(true);
+    }
+  }, [checkUserExistsStatus]);
+
+  const handleFocus = () => {
+    setAlertVisible(false);
+    setUserAlreadyExistsVisible(false);
+  };
 
   return (
     <>
@@ -52,7 +62,7 @@ export const RegisterModal = (props: Props) => {
           <Col sm={"auto"}>
             <Form>
               <Form.Group className="mb-3" controlId="formBasicEmail">
-                {isErrorVisible ? (
+                {isAlertVisible ? (
                   <Alert variant="danger">
                     <Alert.Heading></Alert.Heading>
                     Wypełnij wszystkie pola
@@ -64,8 +74,8 @@ export const RegisterModal = (props: Props) => {
                   placeholder="Wpisz login"
                   value={newLogin}
                   onChange={(ev) => setNewLogin(ev.target.value)}
-                  isInvalid={isInvalid}
-                  onFocus={() => setErrorVisible(false)}
+                  isInvalid={userAlreadyExistsVisible}
+                  onFocus={handleFocus}
                 ></Form.Control>
                 <Form.Control.Feedback type="invalid">
                   Login już istnieje.
@@ -79,8 +89,8 @@ export const RegisterModal = (props: Props) => {
                   placeholder="Wpisz hasło"
                   value={newPassword}
                   onChange={(ev) => setNewPassword(ev.target.value)}
-                  isInvalid={isInvalid}
-                  onFocus={() => setErrorVisible(false)}
+                  isInvalid={userAlreadyExistsVisible}
+                  onFocus={handleFocus}
                 ></Form.Control>
               </Form.Group>
               {isLoading ? (

@@ -23,6 +23,7 @@ export const Register = () => {
 
   const handleRegisterPress = async (newUser: NewRegisterType) => {
     dispatch(checkUserExists({ newLogin: newUser.newLogin }));
+    dispatch(resetStatus());
   };
 
   const registerNewUserFunc = (newUser: NewRegisterType) => {
@@ -33,7 +34,6 @@ export const Register = () => {
       })
     );
     setRedirectToLoginModal(true);
-    dispatch(resetStatus());
   };
 
   return (
@@ -41,13 +41,12 @@ export const Register = () => {
       {!redirectToLoginModal ? (
         <RegisterModal
           onRegisterPress={handleRegisterPress}
-          status={checkUserExistsStatus}
+          checkUserExistsStatus={checkUserExistsStatus}
           registerNewUser={registerNewUserFunc}
           isLoading={
-            checkUserExistsStatus === "loading" ||
-            registerNewUserStatus === "loading"
+            registerNewUserStatus === "loading" ||
+            checkUserExistsStatus === "loading"
           }
-          isInvalid={checkUserExistsStatus === "failed"}
         />
       ) : (
         <LogInModal />

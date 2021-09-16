@@ -1,9 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { checkUserExists, logIn, registerNewUser } from "./action";
-import { NewRegisterType, LoggedInUserType } from "./types";
-
-type FetchStatus = "loading" | "succeeded" | "failed" | "idle";
+import { NewRegisterType, LoggedInUserType, FetchStatus } from "./types";
 
 export type State = {
   user: LoggedInUserType | null;

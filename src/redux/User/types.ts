@@ -12,3 +12,5 @@ export type LoggedInUserType = {
   _id: string;
   newLogin: string;
 };
+
+export type FetchStatus = "loading" | "succeeded" | "failed" | "idle";
