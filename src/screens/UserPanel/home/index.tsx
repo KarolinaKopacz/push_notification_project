@@ -9,9 +9,9 @@ export const Home = (props: any) => {
   return (
     <>
       <Header userName={userName} />
+      <PermissionSection />
       <AddNotificationView />
       <ListOfNotifications />
-      <PermissionSection />
     </>
   );
 };

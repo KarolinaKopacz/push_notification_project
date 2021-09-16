@@ -42,9 +42,16 @@ export const PermissionSection = () => {
   return (
     <>
       {Notification.permission === "granted" ? null : (
-        <Button onClick={() => Notification.requestPermission()}>
-          Zezwól na wyświetlanie powiadomień
-        </Button>
+        <div className="div-for-btn">
+          <Button
+            variant="success"
+            size="lg"
+            onClick={() => Notification.requestPermission()}
+            className="button-notificaation-permissin"
+          >
+            Zezwól na wyświetlanie powiadomień
+          </Button>
+        </div>
       )}
     </>
   );

@@ -38,7 +38,7 @@ export const AddNotificationView = () => {
   };
 
   return (
-    <div className="button-to-add-notification">
+    <div className="div-for-btn">
       <Button
         variant="secondary"
         size="lg"
