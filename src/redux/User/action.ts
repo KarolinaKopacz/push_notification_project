@@ -10,7 +10,6 @@ const urlPass = "610e949a69fac573b50a52f5";
 const checkUserExists = createAsyncThunk(
   "users/CHECK_USERS_EXISTS",
   async ({ newLogin }: { newLogin: string }) => {
-    console.log("newLogin", newLogin);
     // I know I  should put it in the backend, but this is just a playground
     return await fetch(fetchURL, {
       method: "get",
