@@ -22,8 +22,11 @@ export const Register = () => {
   const dispatch = useAppDispatch();
 
   const handleRegisterPress = async (newUser: NewRegisterType) => {
-    dispatch(checkUserExists({ newLogin: newUser.newLogin }));
-    dispatch(resetStatus());
+    return await dispatch(checkUserExists({ newLogin: newUser.newLogin })).then(
+      async (response) => {
+        dispatch(resetStatus());
+      }
+    );
   };
 
   const registerNewUserFunc = (newUser: NewRegisterType) => {

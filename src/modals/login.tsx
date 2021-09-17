@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Container,
   Button,
@@ -9,27 +9,48 @@ import {
   Spinner,
 } from "react-bootstrap";
 
-import { UserType } from "../redux/User/types";
+import { FetchStatus, UserType } from "../redux/User/types";
 
 interface Props {
   onLoginPress: (customUser: UserType) => void;
+  loginUser: (customUser: UserType) => void;
   isLoading: boolean;
-  isInvalid: boolean;
+  loginStatus: FetchStatus;
 }
 
 export const LoginModal = (props: Props) => {
-  const { onLoginPress, isLoading, isInvalid } = props;
+  const { onLoginPress, isLoading, loginStatus, loginUser } = props;
 
-  const [isErrorVisible, setErrorVisible] = useState(false);
+  const [isAlertVisible, setAlertVisible] = useState(false);
+  const [loginOrPasswordWrongVisible, setLoginOrPasswordWrongVisible] =
+    useState(false);
   const [password, setpassword] = useState<string>("");
   const [login, setlogin] = useState<string>("");
 
   const handleLogInPress = () => {
     if (!login || !password) {
-      setErrorVisible(true);
+      setAlertVisible(true);
       return;
     }
     onLoginPress({ newLogin: login, newPasswordEncrypted: password });
+  };
+
+  useEffect(() => {
+    if (loginStatus === "succeeded") {
+      loginUser({
+        newLogin: login,
+        newPasswordEncrypted: password,
+      });
+    }
+
+    if (loginStatus === "failed") {
+      setLoginOrPasswordWrongVisible(true);
+    }
+  }, [loginStatus]);
+
+  const handleFocus = () => {
+    setAlertVisible(false);
+    setLoginOrPasswordWrongVisible(false);
   };
 
   return (
@@ -40,7 +61,7 @@ export const LoginModal = (props: Props) => {
           <Col sm={"auto"}>
             <Form>
               <Form.Group className="mb-3" controlId="formBasicEmail">
-                {isErrorVisible ? (
+                {isAlertVisible ? (
                   <Alert variant="danger">
                     <Alert.Heading></Alert.Heading>
                     Wypełnij wszystkie pola
@@ -52,8 +73,8 @@ export const LoginModal = (props: Props) => {
                   placeholder="Wpisz login"
                   value={login}
                   onChange={(ev) => setlogin(ev.target.value)}
-                  isInvalid={isInvalid}
-                  onFocus={() => setErrorVisible(false)}
+                  isInvalid={loginOrPasswordWrongVisible}
+                  onFocus={handleFocus}
                 ></Form.Control>
               </Form.Group>
             </Form>
@@ -64,8 +85,8 @@ export const LoginModal = (props: Props) => {
                   placeholder="Wpisz hasło"
                   value={password}
                   onChange={(ev) => setpassword(ev.target.value)}
-                  isInvalid={isInvalid}
-                  onFocus={() => setErrorVisible(false)}
+                  isInvalid={loginOrPasswordWrongVisible}
+                  onFocus={handleFocus}
                 ></Form.Control>
                 <Form.Control.Feedback type="invalid">
                   Login lub hasło nieprawidłowe

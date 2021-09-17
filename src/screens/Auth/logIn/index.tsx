@@ -12,21 +12,21 @@ export const LogInModal = () => {
   const dispatch = useAppDispatch();
 
   const handleLogInPress = async (userProperties: UserType) => {
-    dispatch(
+    return await dispatch(
       logIn({
         customLogin: userProperties.newLogin,
         customPassword: userProperties.newPasswordEncrypted,
       })
-    );
-    dispatch(resetStatus());
+    ).then(async (response) => dispatch(resetStatus()));
   };
 
   return (
     <>
       <LoginModal
+        loginStatus={loginStatus}
+        loginUser={handleLogInPress}
         onLoginPress={handleLogInPress}
         isLoading={loginStatus === "loading"}
-        isInvalid={loginStatus === "failed"}
       />
     </>
   );
