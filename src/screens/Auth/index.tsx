@@ -1,32 +1,60 @@
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
-import { LogInModal } from "./logIn";
+
+
+import { Col, Row, Container, Button } from "react-bootstrap";
 
 import { Register } from "./register";
+import { LogInModal } from "./LogIn";
+import { useState } from "react";
 
 export const Auth = () => {
+  const [modalRegisterVisible, setModalRegisterVisible] = useState(false);
+  const [modalLoginVisible, setModalLoginVisible] = useState(false);
+
   return (
-    <Router>
-      <div className="app">
-        <div className="app-header">
-          <p>
-            <Link to="/register">Zarejestruj sie</Link>
-          </p>
+    <Container className="container-first-page">
+      {!modalLoginVisible && !modalRegisterVisible ? (
+        <>
+          <Row className="justify-content-md-center" lg="auto">
+            <Col>
+              <Button
+                onClick={() => setModalLoginVisible(true)}
+                variant="outline-secondary"
+                size="lg"
+              >
+                Zaloguj się
+              </Button>
+            </Col>
+          </Row>
 
-          <p>/</p>
-          <p>
-            <Link to="/log-in">Zaloguj się</Link>
-          </p>
-        </div>
-      </div>
+          <Row className="justify-content-md-center" lg="auto">
+            <Col>
+              <Button
+                onClick={() => setModalRegisterVisible(true)}
+                variant="outline-secondary"
+                size="lg"
+              >
+                Zarejestruj sie
+              </Button>
+            </Col>
+          </Row>
+        </>
+      ) : null}
+      {modalRegisterVisible ? (
+        <Row className="justify-content-md-center" lg="auto">
+          <Col>
+            <Register />
+          </Col>
+        </Row>
+      ) : null}
+      {modalLoginVisible ? (
+        <Row className="justify-content-md-center" lg="auto">
+          <Col>
+            <LogInModal />
+          </Col>
+        </Row>
+      ) : null}
+    </Container>
 
-      <Switch>
-        <Route path="/register">
-          <Register />
-        </Route>
-        <Route path="/log-in">
-          <LogInModal />
-        </Route>
-      </Switch>
-    </Router>
   );
 };
