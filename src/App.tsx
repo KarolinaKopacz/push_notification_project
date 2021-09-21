@@ -1,8 +1,7 @@
+
 import "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Col, Row, Container } from "react-bootstrap";
-
-import "./style.css";
 
 import { useAppSelector } from "./hooks/useAppSelector";
 
@@ -29,6 +28,7 @@ function App() {
         </Row>
       </Container>
     </>
+
   );
 }
 

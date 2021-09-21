@@ -1,3 +1,4 @@
+
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
 
@@ -5,6 +6,7 @@ import userSlice, { State as UserState } from "./User/reducer";
 import notificationSlice, {
   State as NotificationState,
 } from "./Notification/reducer";
+
 import {
   persistStore,
   persistReducer,
@@ -16,6 +18,7 @@ import {
   REGISTER,
 } from "redux-persist";
 
+
 export type AppState = {
   user: UserState;
   notification: NotificationState;
@@ -24,13 +27,16 @@ const persistConfig = {
   key: "root",
   storage,
   blacklist: ["notification"],
+
 };
 
 const persistedReducer = persistReducer(
   persistConfig,
   combineReducers({
     user: userSlice.reducer,
+
     notification: notificationSlice.reducer,
+
   })
 );
 
@@ -49,3 +55,5 @@ const persistor = persistStore(store);
 export { store, persistor };
 
 export type AppDispatch = typeof store.dispatch;
+
+

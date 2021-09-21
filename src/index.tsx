@@ -9,6 +9,7 @@ import { PersistGate } from "redux-persist/es/integration/react";
 
 import { Col, Container, Row } from "react-bootstrap";
 
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>

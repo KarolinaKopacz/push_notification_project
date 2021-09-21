@@ -3,11 +3,12 @@ import { useState } from "react";
 import { useAppSelector } from "../../../hooks/useAppSelector";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 
+
 import { checkUserExists, registerNewUser } from "../../../redux/User/action";
 import { NewRegisterType } from "../../../redux/User/types";
 import { resetStatus } from "../../../redux/User/reducer";
 import { RegisterModal } from "../../../modals/register";
-import { LogInModal } from "../LogIn";
+import { LogInModal } from "../logIn";
 
 export const Register = () => {
   const checkUserExistsStatus = useAppSelector(
@@ -37,10 +38,12 @@ export const Register = () => {
       })
     );
     setRedirectToLoginModal(true);
+
   };
 
   return (
     <>
+
       {!redirectToLoginModal ? (
         <RegisterModal
           onRegisterPress={handleRegisterPress}
@@ -54,6 +57,7 @@ export const Register = () => {
       ) : (
         <LogInModal />
       )}
+
     </>
   );
 };

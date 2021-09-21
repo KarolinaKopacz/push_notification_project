@@ -1,8 +1,9 @@
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 
+
 import { Col, Row, Container, Button } from "react-bootstrap";
 
-import { Register } from "./Register";
+import { Register } from "./register";
 import { LogInModal } from "./LogIn";
 import { useState } from "react";
 
@@ -54,5 +55,6 @@ export const Auth = () => {
         </Row>
       ) : null}
     </Container>
+
   );
 };
