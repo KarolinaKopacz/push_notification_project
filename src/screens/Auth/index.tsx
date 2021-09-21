@@ -4,7 +4,8 @@ import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { Col, Row, Container, Button } from "react-bootstrap";
 
 import { Register } from "./register";
-import { LogInModal } from "./LogIn";
+import { LogInModal } from "./logIn";
+
 import { useState } from "react";
 
 export const Auth = () => {
