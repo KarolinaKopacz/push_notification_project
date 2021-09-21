@@ -1,12 +1,13 @@
-
 import "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Col, Row, Container } from "react-bootstrap";
 
 import { useAppSelector } from "./hooks/useAppSelector";
 
-import { Home } from "./screens/UserPanel/Home";
+import { Home } from "./screens/UserPanel/home";
 import { Auth } from "./screens/Auth";
+
+import "./style.css";
 
 function App() {
   const userIsLogged = useAppSelector((state) => state.user.user);
@@ -28,7 +29,6 @@ function App() {
         </Row>
       </Container>
     </>
-
   );
 }
 
