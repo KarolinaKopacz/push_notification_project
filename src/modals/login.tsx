@@ -56,7 +56,6 @@ export const LoginModal = (props: Props) => {
   return (
     <>
       <Container>
-        <h1>Zaloguj się</h1>
         <Row>
           <Col sm={"auto"}>
             <Form>
