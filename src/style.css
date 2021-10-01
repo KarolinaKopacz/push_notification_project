@@ -9,11 +9,33 @@ body {
     background-size:cover;
     background-attachment: fixed;
 }
+/* .playground-for-login-register-modal {
+    position: absolute;
+    border: 2px solid grey;
+    top: 50%;
+    left:50%;
+    transform: translate(-50%, -50%); 
+    width: 50%;
+    height: 50%;
+} */
+
 .container-first-page {
+    width: 50%;
+    height: 50%;
+    border: 1px solid grey;
+    border-radius: 10px;
     position: absolute;
     top: 50%;
     left:50%;
-    transform: translate(-50%, -50%);   
+    transform: translate(-50%, -50%); 
+    backdrop-filter: blur(5px);
+    background-color: rgba(255, 255, 255, 0.1);  
+}
+
+.container-first-page > h1  {
+    text-align: center;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    margin: 15px auto;
 }
 
 h2 {
@@ -24,6 +46,14 @@ a {
     pointer-events: auto;
     cursor: pointer;
     margin: 0 10px;
+}
+
+.a-link {
+    color: rgb(61, 89, 245);
+}
+
+.a-link:hover {
+    color: rgb(113, 132, 240);
 }
 
 .p-in-modal {
@@ -98,5 +128,15 @@ td {
     display: block;
     margin: auto;
 }
+
+/* additives */
+
+.straight-line {
+    height: 1px;
+    background-color: #6c757d;
+    width: 90%;
+    margin: 10px auto;
+}
+
 
 

@@ -3,4 +3,7 @@ react-app-env.d.ts
 yarn.lock
 yarn-error.log
 README.md
-function/
+.firebaserc
+firebase.json
+build
+.firebase

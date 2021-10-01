@@ -7,50 +7,65 @@ import { useState } from "react";
 
 export const Auth = () => {
   const [modalRegisterVisible, setModalRegisterVisible] = useState(false);
-  const [modalLoginVisible, setModalLoginVisible] = useState(false);
+  const [modalLoginVisible, setModalLoginVisible] = useState(true);
+
+  const handleChangeToRegisterModal = () => {
+    setModalRegisterVisible(true);
+    setModalLoginVisible(false);
+  };
+
+  const handleChangeToLoginModal = () => {
+    setModalRegisterVisible(false);
+    setModalLoginVisible(true);
+  };
 
   return (
     <Container className="container-first-page">
-      {!modalLoginVisible && !modalRegisterVisible ? (
+      <h1>Push Notification</h1>
+
+      {modalRegisterVisible ? (
         <>
           <Row className="justify-content-md-center" lg="auto">
             <Col>
-              <Button
-                onClick={() => setModalLoginVisible(true)}
-                variant="outline-secondary"
-                size="lg"
-              >
-                Zaloguj się
-              </Button>
+              <Register />
             </Col>
           </Row>
-
+          <div className="straight-line"></div>
           <Row className="justify-content-md-center" lg="auto">
             <Col>
-              <Button
-                onClick={() => setModalRegisterVisible(true)}
-                variant="outline-secondary"
-                size="lg"
-              >
-                Zarejestruj sie
-              </Button>
+              <div className="">
+                <p>
+                  Masz konto?{" "}
+                  <a className="a-link" onClick={handleChangeToLoginModal}>
+                    Zaloguj się
+                  </a>
+                </p>
+              </div>
             </Col>
           </Row>
         </>
       ) : null}
-      {modalRegisterVisible ? (
-        <Row className="justify-content-md-center" lg="auto">
-          <Col>
-            <Register />
-          </Col>
-        </Row>
-      ) : null}
       {modalLoginVisible ? (
-        <Row className="justify-content-md-center" lg="auto">
-          <Col>
-            <LogInModal />
-          </Col>
-        </Row>
+        <>
+          <Row className="justify-content-md-center" lg="auto">
+            <Col>
+              <LogInModal />
+            </Col>
+          </Row>
+          <div className="straight-line"></div>
+          <Row className="justify-content-md-center" lg="auto">
+            <Col>
+              <div className="">
+                <p>
+                  Nie masz konta?{" "}
+                  <a className="a-link" onClick={handleChangeToRegisterModal}>
+                    Zarejestruj się
+                  </a>
+                </p>
+              </div>
+            </Col>
+          </Row>
+        </>
       ) : null}
     </Container>
   );
