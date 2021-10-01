@@ -1,6 +1,3 @@
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
-
-
 import { Col, Row, Container, Button } from "react-bootstrap";
 
 import { Register } from "./register";
@@ -56,6 +53,5 @@ export const Auth = () => {
         </Row>
       ) : null}
     </Container>
-
   );
 };

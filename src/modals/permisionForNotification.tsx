@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { Button } from "react-bootstrap";
 
@@ -16,11 +16,23 @@ export const PermissionSection = () => {
 
   const dispatch = useAppDispatch();
 
-  const requestPermission = async () => {
-    await Notification.requestPermission();
+  const [isSafariBrowser, setIsSafariBrowser] = useState(false);
+  const [notificationPermission, setNotificationPermission] = useState(false);
+
+  const checkIfBrowserIsSafari = () => {
+    if (navigator.userAgent.indexOf("Safari") != -1) {
+      setIsSafariBrowser(true);
+      Notification.requestPermission().then((result) => {
+        if (Notification.permission === "granted") {
+          setNotificationPermission(true);
+        }
+      });
+    }
   };
 
-  requestPermission();
+  useEffect(() => {
+    checkIfBrowserIsSafari();
+  }, []);
 
   useEffect(() => {
     if (Notification.permission === "granted") {
@@ -41,7 +53,14 @@ export const PermissionSection = () => {
 
   return (
     <>
-      {Notification.permission === "granted" ? null : (
+      {!isSafariBrowser ? (
+        <div className="div-for-text">
+          <p>Wyświetlanie powiadomień nie jest możliwe w Twojej przeglądarce</p>
+          <p>
+            Aby wyświetlić powiadomienie otwórz stronę w przeglądarce Safari.
+          </p>
+        </div>
+      ) : !notificationPermission ? (
         <div className="div-for-btn">
           <Button
             variant="success"
@@ -52,7 +71,7 @@ export const PermissionSection = () => {
             Zezwól na wyświetlanie powiadomień
           </Button>
         </div>
-      )}
+      ) : null}
     </>
   );
 };
