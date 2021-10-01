@@ -41,6 +41,18 @@ a {
     margin: auto;
     line-height: 5;
 }
+.div-for-text {
+    width:50%;
+    text-align: center;
+    margin: 5px auto;
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.div-for-text > p {
+    margin: 5px auto;
+    color:rgb(243, 94, 8);
+}
 
 .button-to-logout {
     margin: 30px 0 ;
