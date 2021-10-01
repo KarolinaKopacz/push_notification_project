@@ -57,7 +57,6 @@ export const RegisterModal = (props: Props) => {
   return (
     <>
       <Container>
-        <h1>Zarejestruj się</h1>
         <Row>
           <Col sm={"auto"}>
             <Form>
