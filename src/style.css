@@ -8,11 +8,13 @@ body {
     background-repeat: no-repeat;
     background-size:cover;
     background-attachment: fixed;
+    font-family:Arial, Helvetica, sans-serif;
 }
 
 .container-first-page {
-    width: 50%;
-    height: 50%;
+    max-width: 35%;
+    max-height: 50%;
+    min-height: 320px;
     border: 1px solid grey;
     border-radius: 10px;
     position: absolute;
@@ -26,11 +28,15 @@ body {
 .container-first-page > h1  {
     text-align: center;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    margin: 15px auto;
+    margin: 35px auto;
 }
 
 h2 {
     margin-top: 5%;
+}
+
+.switch-login-register {
+    text-align: center;
 }
 
 a {
@@ -76,6 +82,10 @@ a {
     margin: 30px 0 ;
 }
 
+.btn-login-register {
+    display: block;
+    margin: 0 auto;
+}
 
 /* font-awesome */
 .fa-edit,

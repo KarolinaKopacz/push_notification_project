@@ -94,7 +94,11 @@ export const LoginModal = (props: Props) => {
               {isLoading ? (
                 <Spinner animation="border" role="status" />
               ) : (
-                <Button variant="outline-secondary" onClick={handleLogInPress}>
+                <Button
+                  className="btn-login-register"
+                  variant="outline-secondary"
+                  onClick={handleLogInPress}
+                >
                   Zaloguj
                 </Button>
               )}

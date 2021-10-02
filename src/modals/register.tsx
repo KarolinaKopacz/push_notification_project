@@ -96,6 +96,7 @@ export const RegisterModal = (props: Props) => {
                 <Spinner animation="border" role="status" />
               ) : (
                 <Button
+                  className="btn-login-register"
                   variant="outline-secondary"
                   onClick={handleRegisterPress}
                 >

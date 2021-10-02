@@ -33,7 +33,7 @@ export const Auth = () => {
           <div className="straight-line"></div>
           <Row className="justify-content-md-center" lg="auto">
             <Col>
-              <div className="">
+              <div className="switch-login-register">
                 <p>
                   Masz konto?{" "}
                   <a className="a-link" onClick={handleChangeToLoginModal}>
@@ -55,7 +55,7 @@ export const Auth = () => {
           <div className="straight-line"></div>
           <Row className="justify-content-md-center" lg="auto">
             <Col>
-              <div className="">
+              <div className="switch-login-register">
                 <p>
                   Nie masz konta?{" "}
                   <a className="a-link" onClick={handleChangeToRegisterModal}>
