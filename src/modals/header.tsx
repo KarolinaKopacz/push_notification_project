@@ -17,11 +17,11 @@ export const Header = (props: Props) => {
   };
 
   return (
-    <Nav className="justify-content-end" justify variant="tabs">
-      <Nav.Item>
+    <Nav className="justify-content" justify variant="tabs">
+      <Nav.Item className="nav-item-username">
         <h2>Witaj, {userName}!</h2>
       </Nav.Item>
-      <Nav.Item>
+      <Nav.Item className="nav-item-button-logout">
         <Button
           className="button-to-logout"
           variant="outline-secondary"
