@@ -97,6 +97,7 @@ export const ModalForEditNotification = (props: Props) => {
           <p className="p-in-modal">{notificationName}</p>
           <InputGroup className="mb-3">
             <FormControl
+              as="textarea"
               type="text"
               value={description}
               onChange={(ev) => setDescription(ev.target.value)}

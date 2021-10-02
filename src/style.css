@@ -47,9 +47,6 @@ a {
     color: rgb(113, 132, 240);
 }
 
-.p-in-modal {
-    text-align: center;
-}
 
 .p-error-message {
     color: red;
@@ -89,9 +86,9 @@ a {
 /* bootstrap */
 th, td {
     text-align: center;
-   
+    
     overflow: hidden;
-  text-overflow: ellipsis;
+    text-overflow: ellipsis;
 }
 
 td {
@@ -104,7 +101,11 @@ td {
     border-color: transparent
 }
 
- /* modals */
+/* modals */
+.modal-lg {
+    max-width: 600px;
+    
+}
 .modal-title {
     margin: auto;
 }
@@ -113,6 +114,10 @@ td {
     justify-content: space-between;
 }
 
+.p-in-modal {
+    text-align: center;
+    font-size:larger;
+}
 
 /* spinners */
 .spinner-border {
