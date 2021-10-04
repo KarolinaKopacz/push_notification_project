@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { Button } from "react-bootstrap";
+import { Alert, Button } from "react-bootstrap";
 
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { useAppSelector } from "../hooks/useAppSelector";
@@ -60,10 +60,14 @@ export const PermissionSection = () => {
     <>
       {!isSafariBrowser ? (
         <div className="div-for-text">
-          <p>Wyświetlanie powiadomień nie jest możliwe w Twojej przeglądarce</p>
-          <p>
-            Aby wyświetlić powiadomienie otwórz stronę w przeglądarce Safari.
-          </p>
+          <Alert variant={"warning"}>
+            <p>
+              Wyświetlanie powiadomień nie jest możliwe w Twojej przeglądarce
+            </p>
+            <p>
+              Aby wyświetlić powiadomienie otwórz stronę w przeglądarce Safari.
+            </p>
+          </Alert>
         </div>
       ) : !notificationPermission ? (
         <div className="div-for-btn">
