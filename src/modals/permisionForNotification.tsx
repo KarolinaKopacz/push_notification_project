@@ -5,7 +5,7 @@ import { Alert, Button } from "react-bootstrap";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { useAppSelector } from "../hooks/useAppSelector";
 
-import { isPast } from "date-fns";
+import { subSeconds, isPast } from "date-fns";
 
 import { finishedNotification } from "../redux/Notification/action";
 
@@ -43,7 +43,10 @@ export const PermissionSection = () => {
     if (Notification.permission === "granted") {
       const interval = setInterval(() => {
         notificationDatasPerUser.forEach((data) => {
-          if (!data.isFinish && isPast(new Date(data.dateObj))) {
+          if (
+            !data.isFinish &&
+            isPast(subSeconds(new Date(data.dateObj), 30))
+          ) {
             new Notification(data.description, {});
             let isFinish = true;
             dispatch(
@@ -62,10 +65,11 @@ export const PermissionSection = () => {
         <div className="div-for-text">
           <Alert variant={"warning"}>
             <p>
-              Wyświetlanie powiadomień nie jest możliwe w Twojej przeglądarce
-            </p>
-            <p>
-              Aby wyświetlić powiadomienie otwórz stronę w przeglądarce Safari.
+              Planowanie powiadomień poprzez Notification API jest wspierane
+              obecnie jedynie na przeglądarce Safari. Pozostałe przeglądarki
+              wymagają serwera Web Workers API i z tego powodu obecnie tutaj nie
+              działają. Do prawidłowego wyświetlania lokalnych powiadomień
+              otwórz stronę w przeglądarce Safari.
             </p>
           </Alert>
         </div>
