@@ -56,8 +56,8 @@ export const Auth = () => {
           <Row className="justify-content-md-center" lg="auto">
             <Col>
               <div className="switch-login-register">
+                <p>Nie masz konta? </p>
                 <p>
-                  Nie masz konta?{" "}
                   <a className="a-link" onClick={handleChangeToRegisterModal}>
                     Zarejestruj się
                   </a>

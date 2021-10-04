@@ -39,6 +39,11 @@ h2 {
     text-align: center;
 }
 
+.switch-login-register > p{
+    margin: auto;
+    color: rgba(255, 255, 255, 0.863)
+}
+
 a {
     pointer-events: auto;
     cursor: pointer;
@@ -46,7 +51,8 @@ a {
 }
 
 .a-link {
-    color: rgb(61, 89, 245);
+    /* color: rgb(61, 89, 245); */
+    color: rgba(255, 255, 255, 0.863);
 }
 
 .a-link:hover {
@@ -153,4 +159,15 @@ td {
 }
 
 
+@media (max-width:  600px) {
+    .container-first-page {
+        max-width: 70%;
+        max-height: 70%;
+    }
+}
 
+@media (min-width: 601px) {
+    .switch-login-register > p{
+        display: inline-block;
+    }
+}
