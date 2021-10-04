@@ -19,20 +19,25 @@ export const PermissionSection = () => {
   const [isSafariBrowser, setIsSafariBrowser] = useState(false);
   const [notificationPermission, setNotificationPermission] = useState(false);
 
-  const checkIfBrowserIsSafari = () => {
-    if (navigator.userAgent.indexOf("Safari") != -1) {
+  useEffect(() => {
+    if (
+      (navigator.userAgent.indexOf("Safari") != -1 &&
+        navigator.userAgent.indexOf("Safari" && "Chrome") === -1) ||
+      typeof Notification === "undefined"
+    ) {
       setIsSafariBrowser(true);
-      Notification.requestPermission().then((result) => {
-        if (Notification.permission === "granted") {
-          setNotificationPermission(true);
-        }
-      });
     }
-  };
+  }, []);
 
   useEffect(() => {
-    checkIfBrowserIsSafari();
-  }, []);
+    if (!isSafariBrowser) {
+      return;
+    }
+
+    if (Notification.permission === "granted") {
+      setNotificationPermission(true);
+    }
+  }, [isSafariBrowser]);
 
   useEffect(() => {
     if (Notification.permission === "granted") {
