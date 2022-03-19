@@ -2,7 +2,7 @@ node_modules
 react-app-env.d.ts
 yarn.lock
 yarn-error.log
-README.md
+
 .firebaserc
 firebase.json
 build
